@@ -84,7 +84,7 @@ def get_extensions():
         return ext_modules
     if USE_CYTHON:
         ext_modules.extend([
-            Extension('oseq._oseq', ['src/oseq/_oseq.pyx'], pyrex_gdb=False),
+            Extension('oseq._oseq', ['src/oseq/_oseq.pyx']),
         ])
     else:
         emit_warning(
