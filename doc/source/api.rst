@@ -1,10 +1,9 @@
 API
 ================================
-oseq - An ordered sequence for Python
+Application Programming Interface
 
 oseq
 -----------------------
 .. automodule:: oseq
    :members:
    :special-members:
-   
