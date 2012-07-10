@@ -1,0 +1,10 @@
+An Ordered Sequence of objects where duplicates are allowed.
+
+For documentation, run Sphinx_:
+
+	cd doc
+	make clean; make html
+
+And then you can find the documentation in ``doc/build/``.
+
+.. _Sphinx: http://sphinx.pocoo.org/

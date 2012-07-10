@@ -1,6 +1,3 @@
-"""Ordered Sequence of Objects with duplicates allowed for Python
-"""
-
 #
 # TODO:
 #
@@ -13,7 +10,7 @@ def compare(x, y):
     Return negative if x<y, zero if x==y, positive if x>y.
     
     This comparison function is an example, the default one that is used
-    is ``cmp''.
+    is ``cmp``.
     """
     if x < y:
         return -1
@@ -79,7 +76,7 @@ cdef class _DirectedInOrderIterator:
                  _RedBlackNode root, _RedBlackNode nil, bint forward = True):
         """Sets up stack for Iterator
         
-        Finds first element in sequence (min or max, dependent on ``forward''), 
+        Finds first element in sequence (min or max, dependent on ``forward``), 
         stacking the traversed items for processing in next()
         """
         cdef _RedBlackNode node, n
@@ -141,14 +138,14 @@ cdef class OrderedSequence:
     (a self-balancing binary search tree) is used. The order of Objects
     that compare equal is LIFO.
 
-    WARNING:
+    .. warning::
     
-    It is important to note that the remove / contains semantics 
-    are not exact (that is, they do not use the ``is'' operator).
+        It is important to note that the remove / contains semantics 
+        are not exact (that is, they do not use the ``is`` operator).
     
-    Thus, with duplicate (equal) objects we can not remove the exact object, 
-    if the comparison function does only take one aspect of such an object into 
-    account (e.g. only the ``key'' property).
+        Thus, with duplicate (equal) objects we can not remove the exact object, 
+        if the comparison function does only take one aspect of such an object into 
+        account (e.g. only the ``key`` property).
     """
     
     cdef object _cmp
@@ -156,6 +153,12 @@ cdef class OrderedSequence:
     cdef unsigned int _ct
 
     def __init__(self, cmp = cmp):
+        """Initializes the OrderedSequence
+        
+        :param cmp: compare function (defaults to ``cmp``)
+        :type cmp: function
+        :returns: void
+        """
         # Make nil node (nil nodes point to self)
         self._nil = _RedBlackNode(val = None, color = BLACK)
         # Let Root node be the nil node at start
@@ -172,24 +175,33 @@ cdef class OrderedSequence:
         return _DirectedInOrderIterator(self._root, self._nil, forward = False)
 
     def __len__(self):
-        """Returns number of items in the tree
+        """Returns number of items in the OrderedSequence
         """
         return self._ct
 
     def __contains__(self, obj):
-        """Returns whether ``obj'' is in the OrderedSequence
+        """Returns whether ``obj`` is in the OrderedSequence
         """
         return self._find(obj) is not None
 
     def add(self, obj): # rename to add ??
-        """Inserts ``obj'' in the OrderedSequence
+        """Inserts ``obj`` in the OrderedSequence
+        
+        :param obj: object to add
+        :type obj: object
+        :returns: void
         """
         self._insert(obj)
     
     def remove(self, obj):
-        """Removes ``obj'' from the OrderedSequence.
+        """Removes ``obj`` from the OrderedSequence.
         
-        It is an error if obj is not in the OrderedSequence.
+        It is an error if ``obj`` is not in the OrderedSequence.
+        
+        :param obj: object to remove
+        :type obj: object
+        :returns: void
+        :raises: IndexError
         """
         result = self._remove(obj)
         if not result:
@@ -197,8 +209,12 @@ cdef class OrderedSequence:
 x not in OrderedSequence""")
     
     def discard(self, obj):
-        """Removes ``obj'' from the OrderedSequence, 
+        """Removes ``obj`` from the OrderedSequence, 
         also if it is not present in the OrderedSequence
+        
+        :param obj: object to remove
+        :type obj: object
+        :returns: void
         """
         self._remove(obj)
     
@@ -225,7 +241,8 @@ x not in OrderedSequence""")
             raise IndexError('pop from an empty OrderedSequence')
 
     def min(self):
-        """Finds smallest obj in OrderedSequence
+        """Finds smallest (according to the comparison order)
+        object in OrderedSequence
         """
         cdef _RedBlackNode current
         if self._ct > 0:
@@ -235,7 +252,8 @@ x not in OrderedSequence""")
             raise IndexError("Empty OrderedSequence has no min")
 
     def max(self):
-        """Finds largest obj in OrderedSequence
+        """Finds largest (according to the comparison order)
+        object in OrderedSequence
         """
         cdef _RedBlackNode current
         if self._ct > 0:        
@@ -247,7 +265,7 @@ x not in OrderedSequence""")
     # Private methods / Cython implementation
     #------------------------------------------------------------------------    
     cdef _RedBlackNode _find(self, obj): 
-        """Get a node in the tree by its ``obj'' value
+        """Get a node in the tree by its ``obj`` value
         """
         cdef _RedBlackNode z
         z = self._root
@@ -574,7 +592,9 @@ x not in OrderedSequence""")
 
     #-------------------------------------------------------------------#
     def dump_dot(self, to_file):
-        """Dump tree structure to dot-file (for visualization with graphviz)
+        """Dump tree structure to dot-file (for visualization with Graphviz_).
+        
+        .. _Graphviz: http://www.graphviz.org/
         """
         to_file.write("digraph G {")
         if self._root is not self._nil:

@@ -122,21 +122,17 @@ def get_version():
                            "'__version__ =' string not found")
     return version
 
-
-keywords = """\
-keyword"""
-
 if USE_SETUPTOOLS and USE_CYTHON:
     extra_options["install_requires"].extend(get_install_requirements())
 
 setup(name = "oseq",
     version = get_version(),
     description = "An Ordered Sequence of objects where duplicates are allowed.",
-    long_description = open('README.txt', 'r').read(),
+    long_description = open('README', 'r').read(),
     #url = "http://url/",
     author = "Martijn Meijers",
-    #author_email = "author@domain.eu",
-    keywords = keywords,
+    author_email = "b dot m dot meijers at tudelft dot nl",
+    keywords = "ordered sequence, red black tree, priority queue",
     package_dir = {"": "src"},
     packages = packages,
     ext_modules = get_extensions(),
@@ -144,14 +140,15 @@ setup(name = "oseq",
     platforms = ["any"],
     cmdclass = {"build_ext": build_ext, },
     classifiers = [
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Intended Audience :: Information Technology",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Programming Language :: C",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Cython",
+        "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     **extra_options)

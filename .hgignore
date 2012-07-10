@@ -5,3 +5,5 @@ syntax: regexp
 ^src/oseq\.egg-info$
 syntax: regexp
 \.so$
+syntax: regexp
+^doc/build$
