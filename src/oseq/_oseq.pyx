@@ -220,22 +220,34 @@ x not in OrderedSequence""")
     
     def pop(self):
         """Removes and returns largest object of OrderedSequence
+        
+        :returns: object
+        :raises: IndexError
         """
         cdef _RedBlackNode current
         if self._ct > 0:
             current = self._max()
-            self._remove(current.obj)
+            result = self._remove(current.obj)
+            if not result:
+                raise IndexError("""OrderedSequence.pop(x): \
+x not in OrderedSequence (is your sort stable?)""")
             return current.obj
         else:
             raise IndexError('pop from an empty OrderedSequence')
 
     def popleft(self):
         """Removes and returns smallest object of OrderedSequence
+
+        :returns: object
+        :raises: IndexError
         """
         cdef _RedBlackNode current
         if self._ct > 0:
             current = self._min()
-            self._remove(current.obj)
+            result = self._remove(current.obj)
+            if not result:
+                raise IndexError("""OrderedSequence.popleft(x): \
+x not in OrderedSequence (is your sort stable?)""")
             return current.obj
         else:
             raise IndexError('pop from an empty OrderedSequence')
