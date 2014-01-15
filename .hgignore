@@ -7,3 +7,5 @@ syntax: regexp
 \.so$
 syntax: regexp
 ^doc/build$
+syntax: regexp
+\.pyd$
