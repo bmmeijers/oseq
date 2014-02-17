@@ -1,8 +1,8 @@
 Changelog for oseq
 ===========================
 
-1.0.2 (Oct 18, 2013)
------------------
+1.0.3 (2014-02-17)
+------------------
 
 - Fixed bug with respect to unstable sort.
 
