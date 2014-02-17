@@ -9,3 +9,5 @@ syntax: regexp
 ^doc/build$
 syntax: regexp
 ^dist$
+syntax: regexp
+\.pyd$
