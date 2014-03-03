@@ -4,6 +4,7 @@ Changelog for oseq
 1.0.4 (unreleased)
 ------------------
 
+- Added .pxd so that the module can be cimported.
 - Removed fake_pyrex folder hierarchy now that cythonize is used.
 
 

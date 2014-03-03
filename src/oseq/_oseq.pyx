@@ -21,23 +21,23 @@ def compare(x, y):
 
 __all__ = ['OrderedSequence']
 
-cdef enum Color:
-    BLACK
-    RED
-    DUPLICATE
-
-cdef enum cmp_result:
-    LT = -1
-    EQ = 0
-    GT = 1
+# cdef enum Color:
+#     BLACK
+#     RED
+#     DUPLICATE
+# 
+# cdef enum cmp_result:
+#     LT = -1
+#     EQ = 0
+#     GT = 1
 
 # Forward declaration
 cdef class _RedBlackNode
 
 cdef class _RedBlackNode:
-    cdef object obj
-    cdef Color color
-    cdef _RedBlackNode left, right, parent, next
+#     cdef object obj
+#     cdef Color color
+#     cdef _RedBlackNode left, right, parent, next
 
     def __init__(self, object val, 
                        Color color = BLACK, 
@@ -68,9 +68,9 @@ cdef class _RedBlackNode:
 cdef class _DirectedInOrderIterator:
     """Iterator that traverses in-order over given tree (depth first)
     """
-    cdef bint forward
-    cdef list stack
-    cdef _RedBlackNode nil, last_node
+#     cdef bint forward
+#     cdef list stack
+#     cdef _RedBlackNode nil, last_node
     
     def __init__(self, 
                  _RedBlackNode root, _RedBlackNode nil, bint forward = True):
@@ -148,9 +148,9 @@ cdef class OrderedSequence:
         account (e.g. only the ``key`` property).
     """
     
-    cdef object _cmp
-    cdef _RedBlackNode _nil, _root
-    cdef unsigned int _ct
+#     cdef object _cmp
+#     cdef _RedBlackNode _nil, _root
+#     cdef unsigned int _ct
 
     def __init__(self, cmp = cmp):
         """Initializes the OrderedSequence
