@@ -1,7 +1,7 @@
 Changelog for oseq
 ===========================
 
-1.0.4 (unreleased)
+1.0.4 (2014-06-11)
 ------------------
 
 - Added .pxd so that the module can be cimported.
