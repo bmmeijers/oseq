@@ -1,3 +1,5 @@
+# cython: profile=True
+
 cdef enum Color:
     BLACK
     RED
