@@ -4,13 +4,8 @@ Changelog for oseq
 1.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
-
-1.0.4 (2014-06-11)
-------------------
-
-- Nothing changed yet.
+- Changed cdef _remove: return False if exception happens (this will generate
+  exception for element not being there).
 
 
 1.0.4 (2014-06-11)

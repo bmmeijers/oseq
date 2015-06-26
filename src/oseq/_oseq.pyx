@@ -373,91 +373,92 @@ x not in OrderedSequence (is your sort stable?)""")
         """
         cdef bint found
         cdef _RedBlackNode x, y, z
-        found = False
-        z = self._root
-        while z is not self._nil:
-            # _RedBlackNode in list has obj we are looking for
-            if self._cmp(obj, z.obj) == EQ:
-            #if obj == z.obj:
-                break
-            else:
-                if self._cmp(obj, z.obj) == LT:
-                #if obj < z.obj:
-                    z = z.left
+        try:
+            found = False
+            z = self._root
+            while z is not self._nil:
+                # _RedBlackNode in list has obj we are looking for
+                if self._cmp(obj, z.obj) == EQ:
+                #if obj == z.obj:
+                    break
                 else:
-                    z = z.right
-        if z is not self._nil:
-            #if z.next is None and z.obj == obj:
-            if z.next is None and self._cmp(obj, z.obj) == EQ:
-                if z.left is self._nil or z.right is self._nil:
-                    # y has a self._nil node as a child
-                    y = z
-                else:
-                    # find tree successor with a self._nil node as a child
-                    y = z.right
-                    while y.left is not self._nil:
-                        y = y.left
-                # x is y's only child
-                if y.left is not self._nil:
-                    x = y.left
-                else:
-                    x = y.right
-                # remove y from the parent chain
-                x.parent = y.parent
-                if y.parent:
-                    if y is y.parent.left:
-                        y.parent.left = x
+                    if self._cmp(obj, z.obj) == LT:
+                    #if obj < z.obj:
+                        z = z.left
                     else:
-                        y.parent.right = x
-                else:
-                    self._root = x
-                if y is not z:
-                    z.obj = y.obj
-                    z.next = y.next
-                if y.color is BLACK:
-                    self._delete_fixup(x)
-                #
-                self._ct -= 1
-                return True
-    
-            # elif z.next is not None and z.obj == obj:
-            elif z.next is not None and self._cmp(obj, z.obj) == EQ:
-                y = z.next
-                y.next = z.next.next
-                # update tree upwards
-                if z.parent:
-                    if z is z.parent.left:
-                        z.parent.left = y
+                        z = z.right
+            if z is not self._nil:
+                #if z.next is None and z.obj == obj:
+                if z.next is None and self._cmp(obj, z.obj) == EQ:
+                    if z.left is self._nil or z.right is self._nil:
+                        # y has a self._nil node as a child
+                        y = z
                     else:
-                        z.parent.right = y
-                else:
-                    self._root = y
-                # update tree downwards
-                if z.left is not self._nil:
-                    z.left.parent = y
-                if z.right is not self._nil:
-                    z.right.parent = y
-
-                y.parent = z.parent
-                y.color = z.color
-                y.left = z.left
-                y.right = z.right
-                self._ct -= 1
-                #
-                return True             
-            
-            else:
-                while z.next is not None:
-                    if self._cmp(z.next.obj, obj) == EQ:
-                    #if z.next.obj == obj: # find exact dup by using is keyword
-                        # _RedBlackNode is duplicate in list (body)
-                        # Just delete from list by correcting next pointers
-                        y = z.next
+                        # find tree successor with a self._nil node as a child
+                        y = z.right
+                        while y.left is not self._nil:
+                            y = y.left
+                    # x is y's only child
+                    if y.left is not self._nil:
+                        x = y.left
+                    else:
+                        x = y.right
+                    # remove y from the parent chain
+                    x.parent = y.parent
+                    if y.parent:
+                        if y is y.parent.left:
+                            y.parent.left = x
+                        else:
+                            y.parent.right = x
+                    else:
+                        self._root = x
+                    if y is not z:
+                        z.obj = y.obj
                         z.next = y.next
-                        self._ct -= 1
-                        #
-                        return True
-                    z = z.next
+                    if y.color is BLACK:
+                        self._delete_fixup(x)
+                    #
+                    self._ct -= 1
+                    return True
+                # elif z.next is not None and z.obj == obj:
+                elif z.next is not None and self._cmp(obj, z.obj) == EQ:
+                    y = z.next
+                    y.next = z.next.next
+                    # update tree upwards
+                    if z.parent:
+                        if z is z.parent.left:
+                            z.parent.left = y
+                        else:
+                            z.parent.right = y
+                    else:
+                        self._root = y
+                    # update tree downwards
+                    if z.left is not self._nil:
+                        z.left.parent = y
+                    if z.right is not self._nil:
+                        z.right.parent = y
+    
+                    y.parent = z.parent
+                    y.color = z.color
+                    y.left = z.left
+                    y.right = z.right
+                    self._ct -= 1
+                    #
+                    return True
+                else:
+                    while z.next is not None:
+                        if self._cmp(z.next.obj, obj) == EQ:
+                        #if z.next.obj == obj: # find exact dup by using is keyword
+                            # _RedBlackNode is duplicate in list (body)
+                            # Just delete from list by correcting next pointers
+                            y = z.next
+                            z.next = y.next
+                            self._ct -= 1
+                            #
+                            return True
+                        z = z.next
+        except AttributeError:
+            return False
         # if we arrive here, there is no such node in the tree
         return False
 
