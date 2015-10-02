@@ -423,7 +423,9 @@ struct __pyx_obj_4oseq_5_oseq__RedBlackNode;
 struct __pyx_obj_4oseq_5_oseq__DirectedInOrderIterator;
 struct __pyx_obj_4oseq_5_oseq_OrderedSequence;
 
-/* "oseq/_oseq.pxd":1
+/* "oseq/_oseq.pxd":3
+ * # cython: profile=True
+ * 
  * cdef enum Color:             # <<<<<<<<<<<<<<
  *     BLACK
  *     RED
@@ -434,7 +436,7 @@ enum __pyx_t_4oseq_5_oseq_Color {
   __pyx_e_4oseq_5_oseq_DUPLICATE
 };
 
-/* "oseq/_oseq.pxd":6
+/* "oseq/_oseq.pxd":8
  *     DUPLICATE
  * 
  * cdef enum cmp_result:             # <<<<<<<<<<<<<<
@@ -447,7 +449,7 @@ enum __pyx_t_4oseq_5_oseq_cmp_result {
   __pyx_e_4oseq_5_oseq_GT = 1
 };
 
-/* "oseq/_oseq.pxd":12
+/* "oseq/_oseq.pxd":14
  * 
  * # Forward declaration
  * cdef class _RedBlackNode             # <<<<<<<<<<<<<<
@@ -465,7 +467,7 @@ struct __pyx_obj_4oseq_5_oseq__RedBlackNode {
 };
 
 
-/* "oseq/_oseq.pxd":19
+/* "oseq/_oseq.pxd":21
  *     cdef _RedBlackNode left, right, parent, next
  * 
  * cdef class _DirectedInOrderIterator:             # <<<<<<<<<<<<<<
@@ -481,7 +483,7 @@ struct __pyx_obj_4oseq_5_oseq__DirectedInOrderIterator {
 };
 
 
-/* "oseq/_oseq.pxd":24
+/* "oseq/_oseq.pxd":26
  *     cdef _RedBlackNode nil, last_node
  * 
  * cdef class OrderedSequence:             # <<<<<<<<<<<<<<
@@ -499,7 +501,7 @@ struct __pyx_obj_4oseq_5_oseq_OrderedSequence {
 
 
 
-/* "oseq/_oseq.pyx":134
+/* "oseq/_oseq.pyx":136
  * 
  * 
  * cdef class OrderedSequence:             # <<<<<<<<<<<<<<
@@ -606,6 +608,88 @@ static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_n
 static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[], \
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args, \
     const char* function_name);
+
+#ifndef CYTHON_PROFILE
+  #define CYTHON_PROFILE 1
+#endif
+#ifndef CYTHON_TRACE
+  #define CYTHON_TRACE 0
+#endif
+#if CYTHON_TRACE
+  #undef CYTHON_PROFILE_REUSE_FRAME
+#endif
+#ifndef CYTHON_PROFILE_REUSE_FRAME
+  #define CYTHON_PROFILE_REUSE_FRAME 0
+#endif
+#if CYTHON_PROFILE || CYTHON_TRACE
+  #include "compile.h"
+  #include "frameobject.h"
+  #include "traceback.h"
+  #if CYTHON_PROFILE_REUSE_FRAME
+    #define CYTHON_FRAME_MODIFIER static
+    #define CYTHON_FRAME_DEL
+  #else
+    #define CYTHON_FRAME_MODIFIER
+    #define CYTHON_FRAME_DEL Py_CLEAR(__pyx_frame)
+  #endif
+  #define __Pyx_TraceDeclarations                                     \
+  static PyCodeObject *__pyx_frame_code = NULL;                      \
+  CYTHON_FRAME_MODIFIER PyFrameObject *__pyx_frame = NULL;           \
+  int __Pyx_use_tracing = 0;
+  #define __Pyx_TraceCall(funcname, srcfile, firstlineno)                            \
+  if (unlikely(PyThreadState_GET()->use_tracing &&                                   \
+          (PyThreadState_GET()->c_profilefunc || (CYTHON_TRACE && PyThreadState_GET()->c_tracefunc)))) {      \
+      __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, funcname, srcfile, firstlineno);  \
+  }
+  #define __Pyx_TraceException()                                                           \
+  if (unlikely(__Pyx_use_tracing) && PyThreadState_GET()->use_tracing &&                   \
+          (PyThreadState_GET()->c_profilefunc || (CYTHON_TRACE && PyThreadState_GET()->c_tracefunc))) {  \
+      PyThreadState* tstate = PyThreadState_GET();                                         \
+      tstate->use_tracing = 0;                                                             \
+      PyObject *exc_info = __Pyx_GetExceptionTuple();                                      \
+      if (exc_info) {                                                                      \
+          if (CYTHON_TRACE && tstate->c_tracefunc)                                         \
+              tstate->c_tracefunc(                                                         \
+                  tstate->c_traceobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);          \
+          tstate->c_profilefunc(                                                           \
+              tstate->c_profileobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);            \
+          Py_DECREF(exc_info);                                                             \
+      }                                                                                    \
+      tstate->use_tracing = 1;                                                             \
+  }
+  #define __Pyx_TraceReturn(result)                                                  \
+  if (unlikely(__Pyx_use_tracing) && PyThreadState_GET()->use_tracing) {             \
+      PyThreadState* tstate = PyThreadState_GET();                                   \
+      tstate->use_tracing = 0;                                                        \
+      if (CYTHON_TRACE && tstate->c_tracefunc)                                       \
+          tstate->c_tracefunc(                                                       \
+              tstate->c_traceobj, __pyx_frame, PyTrace_RETURN, (PyObject*)result);  \
+      if (tstate->c_profilefunc)                                                     \
+          tstate->c_profilefunc(                                                     \
+              tstate->c_profileobj, __pyx_frame, PyTrace_RETURN, (PyObject*)result);  \
+      CYTHON_FRAME_DEL;                                                              \
+      tstate->use_tracing = 1;                                                       \
+  }
+  static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno);
+  static int __Pyx_TraceSetupAndCall(PyCodeObject** code, PyFrameObject** frame, const char *funcname, const char *srcfile, int firstlineno);
+#else
+  #define __Pyx_TraceDeclarations
+  #define __Pyx_TraceCall(funcname, srcfile, firstlineno)
+  #define __Pyx_TraceException()
+  #define __Pyx_TraceReturn(result)
+#endif
+#if CYTHON_TRACE
+  #define __Pyx_TraceLine(lineno)                                                          \
+  if (unlikely(__Pyx_use_tracing) && unlikely(PyThreadState_GET()->use_tracing && PyThreadState_GET()->c_tracefunc)) {    \
+      PyThreadState* tstate = PyThreadState_GET();                                         \
+      __pyx_frame->f_lineno = lineno;                                                     \
+      tstate->use_tracing = 0;                                                             \
+      tstate->c_tracefunc(tstate->c_traceobj, __pyx_frame, PyTrace_LINE, NULL);           \
+      tstate->use_tracing = 1;                                                             \
+  }
+#else
+  #define __Pyx_TraceLine(lineno)
+#endif
 
 static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
     const char *name, int exact);
@@ -857,7 +941,7 @@ static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_codeobj__14;
 
-/* "oseq/_oseq.pyx":8
+/* "oseq/_oseq.pyx":10
  * #
  * 
  * def compare(x, y):             # <<<<<<<<<<<<<<
@@ -898,11 +982,11 @@ static PyObject *__pyx_pw_4oseq_5_oseq_1compare(PyObject *__pyx_self, PyObject *
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("compare", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("compare", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "compare") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "compare") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -915,7 +999,7 @@ static PyObject *__pyx_pw_4oseq_5_oseq_1compare(PyObject *__pyx_self, PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("compare", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("compare", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("oseq._oseq.compare", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -936,21 +1020,23 @@ static PyObject *__pyx_pf_4oseq_5_oseq_compare(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("compare", 0);
+  __Pyx_TraceCall("compare", __pyx_f[0], 10);
 
-  /* "oseq/_oseq.pyx":15
+  /* "oseq/_oseq.pyx":17
  *     is ``cmp``.
  *     """
  *     if x < y:             # <<<<<<<<<<<<<<
  *         return -1
  *     elif x == y:
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_v_y, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_v_y, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":16
+    /* "oseq/_oseq.pyx":18
  *     """
  *     if x < y:
  *         return -1             # <<<<<<<<<<<<<<
@@ -963,19 +1049,19 @@ static PyObject *__pyx_pf_4oseq_5_oseq_compare(CYTHON_UNUSED PyObject *__pyx_sel
     goto __pyx_L0;
   }
 
-  /* "oseq/_oseq.pyx":17
+  /* "oseq/_oseq.pyx":19
  *     if x < y:
  *         return -1
  *     elif x == y:             # <<<<<<<<<<<<<<
  *         return 0
  *     else:
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_v_y, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_v_y, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":18
+    /* "oseq/_oseq.pyx":20
  *         return -1
  *     elif x == y:
  *         return 0             # <<<<<<<<<<<<<<
@@ -989,7 +1075,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_compare(CYTHON_UNUSED PyObject *__pyx_sel
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":20
+    /* "oseq/_oseq.pyx":22
  *         return 0
  *     else:
  *         return 1             # <<<<<<<<<<<<<<
@@ -1002,7 +1088,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_compare(CYTHON_UNUSED PyObject *__pyx_sel
     goto __pyx_L0;
   }
 
-  /* "oseq/_oseq.pyx":8
+  /* "oseq/_oseq.pyx":10
  * #
  * 
  * def compare(x, y):             # <<<<<<<<<<<<<<
@@ -1017,11 +1103,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_compare(CYTHON_UNUSED PyObject *__pyx_sel
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":42
+/* "oseq/_oseq.pyx":44
  * #     cdef _RedBlackNode left, right, parent, next
  * 
  *     def __init__(self, object val,             # <<<<<<<<<<<<<<
@@ -1048,7 +1135,7 @@ static int __pyx_pw_4oseq_5_oseq_13_RedBlackNode_1__init__(PyObject *__pyx_v_sel
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_val,&__pyx_n_s_color,&__pyx_n_s_left,&__pyx_n_s_right,&__pyx_n_s_parent,&__pyx_n_s_next,0};
     PyObject* values[6] = {0,0,0,0,0,0};
 
-    /* "oseq/_oseq.pyx":44
+    /* "oseq/_oseq.pyx":46
  *     def __init__(self, object val,
  *                        Color color = BLACK,
  *                        _RedBlackNode left = None,             # <<<<<<<<<<<<<<
@@ -1057,7 +1144,7 @@ static int __pyx_pw_4oseq_5_oseq_13_RedBlackNode_1__init__(PyObject *__pyx_v_sel
  */
     values[2] = (PyObject *)((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)Py_None);
 
-    /* "oseq/_oseq.pyx":45
+    /* "oseq/_oseq.pyx":47
  *                        Color color = BLACK,
  *                        _RedBlackNode left = None,
  *                        _RedBlackNode right = None,             # <<<<<<<<<<<<<<
@@ -1066,7 +1153,7 @@ static int __pyx_pw_4oseq_5_oseq_13_RedBlackNode_1__init__(PyObject *__pyx_v_sel
  */
     values[3] = (PyObject *)((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)Py_None);
 
-    /* "oseq/_oseq.pyx":46
+    /* "oseq/_oseq.pyx":48
  *                        _RedBlackNode left = None,
  *                        _RedBlackNode right = None,
  *                        _RedBlackNode parent = None,             # <<<<<<<<<<<<<<
@@ -1075,7 +1162,7 @@ static int __pyx_pw_4oseq_5_oseq_13_RedBlackNode_1__init__(PyObject *__pyx_v_sel
  */
     values[4] = (PyObject *)((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)Py_None);
 
-    /* "oseq/_oseq.pyx":47
+    /* "oseq/_oseq.pyx":49
  *                        _RedBlackNode right = None,
  *                        _RedBlackNode parent = None,
  *                        _RedBlackNode next = None):             # <<<<<<<<<<<<<<
@@ -1128,7 +1215,7 @@ static int __pyx_pw_4oseq_5_oseq_13_RedBlackNode_1__init__(PyObject *__pyx_v_sel
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1144,7 +1231,7 @@ static int __pyx_pw_4oseq_5_oseq_13_RedBlackNode_1__init__(PyObject *__pyx_v_sel
     }
     __pyx_v_val = values[0];
     if (values[1]) {
-      __pyx_v_color = ((enum __pyx_t_4oseq_5_oseq_Color)PyInt_AsLong(values[1])); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_color = ((enum __pyx_t_4oseq_5_oseq_Color)PyInt_AsLong(values[1])); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_color = __pyx_k_;
     }
@@ -1155,19 +1242,19 @@ static int __pyx_pw_4oseq_5_oseq_13_RedBlackNode_1__init__(PyObject *__pyx_v_sel
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 6, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 6, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("oseq._oseq._RedBlackNode.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_left), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "left", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_right), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "right", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_parent), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "parent", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_next), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "next", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_left), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "left", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_right), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "right", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_parent), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "parent", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_next), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "next", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_v_self), __pyx_v_val, __pyx_v_color, __pyx_v_left, __pyx_v_right, __pyx_v_parent, __pyx_v_next);
 
-  /* "oseq/_oseq.pyx":42
+  /* "oseq/_oseq.pyx":44
  * #     cdef _RedBlackNode left, right, parent, next
  * 
  *     def __init__(self, object val,             # <<<<<<<<<<<<<<
@@ -1189,9 +1276,11 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
+  __Pyx_TraceCall("__init__", __pyx_f[0], 44);
 
-  /* "oseq/_oseq.pyx":48
+  /* "oseq/_oseq.pyx":50
  *                        _RedBlackNode parent = None,
  *                        _RedBlackNode next = None):
  *         self.obj = val             # <<<<<<<<<<<<<<
@@ -1204,7 +1293,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   __Pyx_DECREF(__pyx_v_self->obj);
   __pyx_v_self->obj = __pyx_v_val;
 
-  /* "oseq/_oseq.pyx":49
+  /* "oseq/_oseq.pyx":51
  *                        _RedBlackNode next = None):
  *         self.obj = val
  *         self.color = color             # <<<<<<<<<<<<<<
@@ -1213,7 +1302,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
  */
   __pyx_v_self->color = __pyx_v_color;
 
-  /* "oseq/_oseq.pyx":50
+  /* "oseq/_oseq.pyx":52
  *         self.obj = val
  *         self.color = color
  *         if left is None:             # <<<<<<<<<<<<<<
@@ -1224,7 +1313,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":51
+    /* "oseq/_oseq.pyx":53
  *         self.color = color
  *         if left is None:
  *             self.left = self             # <<<<<<<<<<<<<<
@@ -1240,7 +1329,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":53
+    /* "oseq/_oseq.pyx":55
  *             self.left = self
  *         else:
  *             self.left = left             # <<<<<<<<<<<<<<
@@ -1255,7 +1344,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   }
   __pyx_L3:;
 
-  /* "oseq/_oseq.pyx":54
+  /* "oseq/_oseq.pyx":56
  *         else:
  *             self.left = left
  *         if right is None:             # <<<<<<<<<<<<<<
@@ -1266,7 +1355,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "oseq/_oseq.pyx":55
+    /* "oseq/_oseq.pyx":57
  *             self.left = left
  *         if right is None:
  *             self.right = self             # <<<<<<<<<<<<<<
@@ -1282,7 +1371,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":57
+    /* "oseq/_oseq.pyx":59
  *             self.right = self
  *         else:
  *             self.right = right             # <<<<<<<<<<<<<<
@@ -1297,7 +1386,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   }
   __pyx_L4:;
 
-  /* "oseq/_oseq.pyx":58
+  /* "oseq/_oseq.pyx":60
  *         else:
  *             self.right = right
  *         self.parent = parent             # <<<<<<<<<<<<<<
@@ -1310,7 +1399,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   __Pyx_DECREF(((PyObject *)__pyx_v_self->parent));
   __pyx_v_self->parent = __pyx_v_parent;
 
-  /* "oseq/_oseq.pyx":62
+  /* "oseq/_oseq.pyx":64
  *         # they form a single linked list in one node
  *         # with duplicates stored in the single linked list
  *         self.next = next             # <<<<<<<<<<<<<<
@@ -1323,7 +1412,7 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
   __Pyx_DECREF(((PyObject *)__pyx_v_self->next));
   __pyx_v_self->next = __pyx_v_next;
 
-  /* "oseq/_oseq.pyx":42
+  /* "oseq/_oseq.pyx":44
  * #     cdef _RedBlackNode left, right, parent, next
  * 
  *     def __init__(self, object val,             # <<<<<<<<<<<<<<
@@ -1333,11 +1422,12 @@ static int __pyx_pf_4oseq_5_oseq_13_RedBlackNode___init__(struct __pyx_obj_4oseq
 
   /* function exit code */
   __pyx_r = 0;
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":64
+/* "oseq/_oseq.pyx":66
  *         self.next = next
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -1371,9 +1461,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_13_RedBlackNode_2__str__(struct __pyx_obj
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__str__", 0);
+  __Pyx_TraceCall("__str__", __pyx_f[0], 66);
 
-  /* "oseq/_oseq.pyx":65
+  /* "oseq/_oseq.pyx":67
  * 
  *     def __str__(self):
  *         return "Node<{0} [{1}] p:{2}>".format(id(self), self.obj, id(self.parent))             # <<<<<<<<<<<<<<
@@ -1381,22 +1473,22 @@ static PyObject *__pyx_pf_4oseq_5_oseq_13_RedBlackNode_2__str__(struct __pyx_obj
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Node_0_1_p_2, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Node_0_1_p_2, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_3, 0, ((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->parent));
   PyTuple_SET_ITEM(__pyx_t_3, 0, ((PyObject *)__pyx_v_self->parent));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->parent));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -1411,7 +1503,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_13_RedBlackNode_2__str__(struct __pyx_obj
       __pyx_t_6 = 1;
     }
   }
-  __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
   if (__pyx_t_3) {
     PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
@@ -1425,7 +1517,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_13_RedBlackNode_2__str__(struct __pyx_obj
   __Pyx_GIVEREF(__pyx_t_5);
   __pyx_t_4 = 0;
   __pyx_t_5 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -1433,7 +1525,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_13_RedBlackNode_2__str__(struct __pyx_obj
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":64
+  /* "oseq/_oseq.pyx":66
  *         self.next = next
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -1453,11 +1545,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_13_RedBlackNode_2__str__(struct __pyx_obj
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":75
+/* "oseq/_oseq.pyx":77
  * #     cdef _RedBlackNode nil, last_node
  * 
  *     def __init__(self,             # <<<<<<<<<<<<<<
@@ -1502,7 +1595,7 @@ static int __pyx_pw_4oseq_5_oseq_24_DirectedInOrderIterator_1__init__(PyObject *
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nil)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (kw_args > 0) {
@@ -1511,7 +1604,7 @@ static int __pyx_pw_4oseq_5_oseq_24_DirectedInOrderIterator_1__init__(PyObject *
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1525,10 +1618,10 @@ static int __pyx_pw_4oseq_5_oseq_24_DirectedInOrderIterator_1__init__(PyObject *
     __pyx_v_root = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)values[0]);
     __pyx_v_nil = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)values[1]);
     if (values[2]) {
-      __pyx_v_forward = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_forward == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_forward = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_forward == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
 
-      /* "oseq/_oseq.pyx":76
+      /* "oseq/_oseq.pyx":78
  * 
  *     def __init__(self,
  *                  _RedBlackNode root, _RedBlackNode nil, bint forward = True):             # <<<<<<<<<<<<<<
@@ -1540,17 +1633,17 @@ static int __pyx_pw_4oseq_5_oseq_24_DirectedInOrderIterator_1__init__(PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("oseq._oseq._DirectedInOrderIterator.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_root), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "root", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nil), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "nil", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_root), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "root", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nil), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "nil", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(((struct __pyx_obj_4oseq_5_oseq__DirectedInOrderIterator *)__pyx_v_self), __pyx_v_root, __pyx_v_nil, __pyx_v_forward);
 
-  /* "oseq/_oseq.pyx":75
+  /* "oseq/_oseq.pyx":77
  * #     cdef _RedBlackNode nil, last_node
  * 
  *     def __init__(self,             # <<<<<<<<<<<<<<
@@ -1579,9 +1672,11 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
+  __Pyx_TraceCall("__init__", __pyx_f[0], 77);
 
-  /* "oseq/_oseq.pyx":83
+  /* "oseq/_oseq.pyx":85
  *         """
  *         cdef _RedBlackNode node, n
  *         self.forward = forward             # <<<<<<<<<<<<<<
@@ -1590,14 +1685,14 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
  */
   __pyx_v_self->forward = __pyx_v_forward;
 
-  /* "oseq/_oseq.pyx":84
+  /* "oseq/_oseq.pyx":86
  *         cdef _RedBlackNode node, n
  *         self.forward = forward
  *         self.stack = []             # <<<<<<<<<<<<<<
  *         self.nil = nil
  *         # last_node is needed to traverse duplicate nodes only once
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->stack);
@@ -1605,7 +1700,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
   __pyx_v_self->stack = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":85
+  /* "oseq/_oseq.pyx":87
  *         self.forward = forward
  *         self.stack = []
  *         self.nil = nil             # <<<<<<<<<<<<<<
@@ -1618,7 +1713,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
   __Pyx_DECREF(((PyObject *)__pyx_v_self->nil));
   __pyx_v_self->nil = __pyx_v_nil;
 
-  /* "oseq/_oseq.pyx":87
+  /* "oseq/_oseq.pyx":89
  *         self.nil = nil
  *         # last_node is needed to traverse duplicate nodes only once
  *         self.last_node = None             # <<<<<<<<<<<<<<
@@ -1631,7 +1726,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
   __Pyx_DECREF(((PyObject *)__pyx_v_self->last_node));
   __pyx_v_self->last_node = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)Py_None);
 
-  /* "oseq/_oseq.pyx":88
+  /* "oseq/_oseq.pyx":90
  *         # last_node is needed to traverse duplicate nodes only once
  *         self.last_node = None
  *         node = root             # <<<<<<<<<<<<<<
@@ -1641,7 +1736,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
   __Pyx_INCREF(((PyObject *)__pyx_v_root));
   __pyx_v_node = __pyx_v_root;
 
-  /* "oseq/_oseq.pyx":89
+  /* "oseq/_oseq.pyx":91
  *         self.last_node = None
  *         node = root
  *         while node is not nil:             # <<<<<<<<<<<<<<
@@ -1653,7 +1748,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (!__pyx_t_3) break;
 
-    /* "oseq/_oseq.pyx":90
+    /* "oseq/_oseq.pyx":92
  *         node = root
  *         while node is not nil:
  *             self.stack.append(node)             # <<<<<<<<<<<<<<
@@ -1662,11 +1757,11 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
  */
     if (unlikely(__pyx_v_self->stack == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_self->stack, ((PyObject *)__pyx_v_node)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_self->stack, ((PyObject *)__pyx_v_node)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "oseq/_oseq.pyx":91
+    /* "oseq/_oseq.pyx":93
  *         while node is not nil:
  *             self.stack.append(node)
  *             if node.next is not None:             # <<<<<<<<<<<<<<
@@ -1677,7 +1772,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
     __pyx_t_2 = (__pyx_t_3 != 0);
     if (__pyx_t_2) {
 
-      /* "oseq/_oseq.pyx":92
+      /* "oseq/_oseq.pyx":94
  *             self.stack.append(node)
  *             if node.next is not None:
  *                 n = node.next             # <<<<<<<<<<<<<<
@@ -1689,7 +1784,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
       __Pyx_XDECREF_SET(__pyx_v_n, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1));
       __pyx_t_1 = 0;
 
-      /* "oseq/_oseq.pyx":93
+      /* "oseq/_oseq.pyx":95
  *             if node.next is not None:
  *                 n = node.next
  *                 while n is not None:             # <<<<<<<<<<<<<<
@@ -1701,7 +1796,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
         __pyx_t_3 = (__pyx_t_2 != 0);
         if (!__pyx_t_3) break;
 
-        /* "oseq/_oseq.pyx":94
+        /* "oseq/_oseq.pyx":96
  *                 n = node.next
  *                 while n is not None:
  *                     self.stack.append(n)             # <<<<<<<<<<<<<<
@@ -1710,11 +1805,11 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
  */
         if (unlikely(__pyx_v_self->stack == Py_None)) {
           PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
-          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
-        __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_self->stack, ((PyObject *)__pyx_v_n)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_self->stack, ((PyObject *)__pyx_v_n)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "oseq/_oseq.pyx":95
+        /* "oseq/_oseq.pyx":97
  *                 while n is not None:
  *                     self.stack.append(n)
  *                     n = n.next             # <<<<<<<<<<<<<<
@@ -1730,7 +1825,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
     }
     __pyx_L5:;
 
-    /* "oseq/_oseq.pyx":96
+    /* "oseq/_oseq.pyx":98
  *                     self.stack.append(n)
  *                     n = n.next
  *             if self.forward:             # <<<<<<<<<<<<<<
@@ -1740,7 +1835,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
     __pyx_t_3 = (__pyx_v_self->forward != 0);
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":97
+      /* "oseq/_oseq.pyx":99
  *                     n = n.next
  *             if self.forward:
  *                 node = node.left             # <<<<<<<<<<<<<<
@@ -1755,7 +1850,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
     }
     /*else*/ {
 
-      /* "oseq/_oseq.pyx":99
+      /* "oseq/_oseq.pyx":101
  *                 node = node.left
  *             else:
  *                 node = node.right             # <<<<<<<<<<<<<<
@@ -1770,7 +1865,7 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
     __pyx_L8:;
   }
 
-  /* "oseq/_oseq.pyx":75
+  /* "oseq/_oseq.pyx":77
  * #     cdef _RedBlackNode nil, last_node
  * 
  *     def __init__(self,             # <<<<<<<<<<<<<<
@@ -1788,11 +1883,12 @@ static int __pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator___init__(struct __py
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_node);
   __Pyx_XDECREF((PyObject *)__pyx_v_n);
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":101
+/* "oseq/_oseq.pyx":103
  *                 node = node.right
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -1820,9 +1916,11 @@ static PyObject *__pyx_pw_4oseq_5_oseq_24_DirectedInOrderIterator_3__iter__(PyOb
 static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_2__iter__(struct __pyx_obj_4oseq_5_oseq__DirectedInOrderIterator *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__iter__", 0);
+  __Pyx_TraceCall("__iter__", __pyx_f[0], 103);
 
-  /* "oseq/_oseq.pyx":104
+  /* "oseq/_oseq.pyx":106
  *         """Iterator protocol
  *         """
  *         return self             # <<<<<<<<<<<<<<
@@ -1834,7 +1932,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_2__iter__(stru
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":101
+  /* "oseq/_oseq.pyx":103
  *                 node = node.right
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -1845,11 +1943,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_2__iter__(stru
   /* function exit code */
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":106
+/* "oseq/_oseq.pyx":108
  *         return self
  * 
  *     def __next__(self): # Note: Python normal naming convention is next(self)             # <<<<<<<<<<<<<<
@@ -1887,9 +1986,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__next__", 0);
+  __Pyx_TraceCall("__next__", __pyx_f[0], 108);
 
-  /* "oseq/_oseq.pyx":110
+  /* "oseq/_oseq.pyx":112
  *         """
  *         cdef _RedBlackNode node, n
  *         if self.stack:             # <<<<<<<<<<<<<<
@@ -1899,7 +2000,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
   __pyx_t_1 = (__pyx_v_self->stack != Py_None) && (PyList_GET_SIZE(__pyx_v_self->stack) != 0);
   if (__pyx_t_1) {
 
-    /* "oseq/_oseq.pyx":111
+    /* "oseq/_oseq.pyx":113
  *         cdef _RedBlackNode node, n
  *         if self.stack:
  *             node = self.stack.pop()             # <<<<<<<<<<<<<<
@@ -1908,15 +2009,15 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
  */
     if (unlikely(__pyx_v_self->stack == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "pop");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_2 = __Pyx_PyList_Pop(__pyx_v_self->stack); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyList_Pop(__pyx_v_self->stack); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_4oseq_5_oseq__RedBlackNode))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_4oseq_5_oseq__RedBlackNode))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_v_node = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "oseq/_oseq.pyx":112
+    /* "oseq/_oseq.pyx":114
  *         if self.stack:
  *             node = self.stack.pop()
  *             if node.right is not self.nil:             # <<<<<<<<<<<<<<
@@ -1927,7 +2028,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
     __pyx_t_3 = (__pyx_t_1 != 0);
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":113
+      /* "oseq/_oseq.pyx":115
  *             node = self.stack.pop()
  *             if node.right is not self.nil:
  *                 if self.forward:             # <<<<<<<<<<<<<<
@@ -1937,7 +2038,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
       __pyx_t_3 = (__pyx_v_self->forward != 0);
       if (__pyx_t_3) {
 
-        /* "oseq/_oseq.pyx":114
+        /* "oseq/_oseq.pyx":116
  *             if node.right is not self.nil:
  *                 if self.forward:
  *                     n = node.right             # <<<<<<<<<<<<<<
@@ -1952,7 +2053,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
       }
       /*else*/ {
 
-        /* "oseq/_oseq.pyx":116
+        /* "oseq/_oseq.pyx":118
  *                     n = node.right
  *                 else:
  *                     n = node.left             # <<<<<<<<<<<<<<
@@ -1966,7 +2067,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
       }
       __pyx_L5:;
 
-      /* "oseq/_oseq.pyx":117
+      /* "oseq/_oseq.pyx":119
  *                 else:
  *                     n = node.left
  *                 while n is not self.nil:             # <<<<<<<<<<<<<<
@@ -1978,7 +2079,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
         __pyx_t_1 = (__pyx_t_3 != 0);
         if (!__pyx_t_1) break;
 
-        /* "oseq/_oseq.pyx":118
+        /* "oseq/_oseq.pyx":120
  *                     n = node.left
  *                 while n is not self.nil:
  *                     self.stack.append(n)             # <<<<<<<<<<<<<<
@@ -1987,11 +2088,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
  */
         if (unlikely(__pyx_v_self->stack == Py_None)) {
           PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
-          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
-        __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_self->stack, ((PyObject *)__pyx_v_n)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_self->stack, ((PyObject *)__pyx_v_n)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "oseq/_oseq.pyx":119
+        /* "oseq/_oseq.pyx":121
  *                 while n is not self.nil:
  *                     self.stack.append(n)
  *                     if self.forward:             # <<<<<<<<<<<<<<
@@ -2001,7 +2102,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
         __pyx_t_1 = (__pyx_v_self->forward != 0);
         if (__pyx_t_1) {
 
-          /* "oseq/_oseq.pyx":120
+          /* "oseq/_oseq.pyx":122
  *                     self.stack.append(n)
  *                     if self.forward:
  *                         n = n.left             # <<<<<<<<<<<<<<
@@ -2016,7 +2117,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
         }
         /*else*/ {
 
-          /* "oseq/_oseq.pyx":122
+          /* "oseq/_oseq.pyx":124
  *                         n = n.left
  *                     else:
  *                         n = n.right             # <<<<<<<<<<<<<<
@@ -2034,7 +2135,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
     }
     __pyx_L4:;
 
-    /* "oseq/_oseq.pyx":123
+    /* "oseq/_oseq.pyx":125
  *                     else:
  *                         n = n.right
  *             if node.next is not None and node.next is not self.last_node:             # <<<<<<<<<<<<<<
@@ -2054,7 +2155,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
     __pyx_L10_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "oseq/_oseq.pyx":124
+      /* "oseq/_oseq.pyx":126
  *                         n = n.right
  *             if node.next is not None and node.next is not self.last_node:
  *                 n = node.next             # <<<<<<<<<<<<<<
@@ -2066,7 +2167,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
       __Pyx_XDECREF_SET(__pyx_v_n, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_2));
       __pyx_t_2 = 0;
 
-      /* "oseq/_oseq.pyx":125
+      /* "oseq/_oseq.pyx":127
  *             if node.next is not None and node.next is not self.last_node:
  *                 n = node.next
  *                 while n is not None:             # <<<<<<<<<<<<<<
@@ -2078,7 +2179,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
         __pyx_t_3 = (__pyx_t_1 != 0);
         if (!__pyx_t_3) break;
 
-        /* "oseq/_oseq.pyx":126
+        /* "oseq/_oseq.pyx":128
  *                 n = node.next
  *                 while n is not None:
  *                     self.stack.append(n)             # <<<<<<<<<<<<<<
@@ -2087,11 +2188,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
  */
         if (unlikely(__pyx_v_self->stack == Py_None)) {
           PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
-          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
-        __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_self->stack, ((PyObject *)__pyx_v_n)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_self->stack, ((PyObject *)__pyx_v_n)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "oseq/_oseq.pyx":127
+        /* "oseq/_oseq.pyx":129
  *                 while n is not None:
  *                     self.stack.append(n)
  *                     n = n.next             # <<<<<<<<<<<<<<
@@ -2107,7 +2208,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
     }
     __pyx_L9:;
 
-    /* "oseq/_oseq.pyx":128
+    /* "oseq/_oseq.pyx":130
  *                     self.stack.append(n)
  *                     n = n.next
  *             self.last_node = node             # <<<<<<<<<<<<<<
@@ -2120,7 +2221,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
     __Pyx_DECREF(((PyObject *)__pyx_v_self->last_node));
     __pyx_v_self->last_node = __pyx_v_node;
 
-    /* "oseq/_oseq.pyx":129
+    /* "oseq/_oseq.pyx":131
  *                     n = n.next
  *             self.last_node = node
  *             return node.obj             # <<<<<<<<<<<<<<
@@ -2134,21 +2235,21 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":131
+    /* "oseq/_oseq.pyx":133
  *             return node.obj
  *         else:
  *             raise StopIteration()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_StopIteration); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_StopIteration); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "oseq/_oseq.pyx":106
+  /* "oseq/_oseq.pyx":108
  *         return self
  * 
  *     def __next__(self): # Note: Python normal naming convention is next(self)             # <<<<<<<<<<<<<<
@@ -2165,11 +2266,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__(stru
   __Pyx_XDECREF((PyObject *)__pyx_v_node);
   __Pyx_XDECREF((PyObject *)__pyx_v_n);
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":155
+/* "oseq/_oseq.pyx":157
  * #     cdef unsigned int _ct
  * 
  *     def __init__(self, cmp = cmp):             # <<<<<<<<<<<<<<
@@ -2212,7 +2314,7 @@ static int __pyx_pw_4oseq_5_oseq_15OrderedSequence_1__init__(PyObject *__pyx_v_s
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2225,7 +2327,7 @@ static int __pyx_pw_4oseq_5_oseq_15OrderedSequence_1__init__(PyObject *__pyx_v_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("oseq._oseq.OrderedSequence.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2246,23 +2348,25 @@ static int __pyx_pf_4oseq_5_oseq_15OrderedSequence___init__(struct __pyx_obj_4os
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
+  __Pyx_TraceCall("__init__", __pyx_f[0], 157);
 
-  /* "oseq/_oseq.pyx":163
+  /* "oseq/_oseq.pyx":165
  *         """
  *         # Make nil node (nil nodes point to self)
  *         self._nil = _RedBlackNode(val = None, color = BLACK)             # <<<<<<<<<<<<<<
  *         # Let Root node be the nil node at start
  *         self._root = self._nil
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_val, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_2 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_BLACK); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_val, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_BLACK); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_color, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_color, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__RedBlackNode)), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__RedBlackNode)), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -2271,7 +2375,7 @@ static int __pyx_pf_4oseq_5_oseq_15OrderedSequence___init__(struct __pyx_obj_4os
   __pyx_v_self->_nil = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "oseq/_oseq.pyx":165
+  /* "oseq/_oseq.pyx":167
  *         self._nil = _RedBlackNode(val = None, color = BLACK)
  *         # Let Root node be the nil node at start
  *         self._root = self._nil             # <<<<<<<<<<<<<<
@@ -2286,7 +2390,7 @@ static int __pyx_pf_4oseq_5_oseq_15OrderedSequence___init__(struct __pyx_obj_4os
   __pyx_v_self->_root = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "oseq/_oseq.pyx":166
+  /* "oseq/_oseq.pyx":168
  *         # Let Root node be the nil node at start
  *         self._root = self._nil
  *         self._ct = 0             # <<<<<<<<<<<<<<
@@ -2295,7 +2399,7 @@ static int __pyx_pf_4oseq_5_oseq_15OrderedSequence___init__(struct __pyx_obj_4os
  */
   __pyx_v_self->_ct = 0;
 
-  /* "oseq/_oseq.pyx":167
+  /* "oseq/_oseq.pyx":169
  *         self._root = self._nil
  *         self._ct = 0
  *         self._cmp = cmp # defaults to cmp func             # <<<<<<<<<<<<<<
@@ -2308,7 +2412,7 @@ static int __pyx_pf_4oseq_5_oseq_15OrderedSequence___init__(struct __pyx_obj_4os
   __Pyx_DECREF(__pyx_v_self->_cmp);
   __pyx_v_self->_cmp = __pyx_v_cmp;
 
-  /* "oseq/_oseq.pyx":155
+  /* "oseq/_oseq.pyx":157
  * #     cdef unsigned int _ct
  * 
  *     def __init__(self, cmp = cmp):             # <<<<<<<<<<<<<<
@@ -2325,11 +2429,12 @@ static int __pyx_pf_4oseq_5_oseq_15OrderedSequence___init__(struct __pyx_obj_4os
   __Pyx_AddTraceback("oseq._oseq.OrderedSequence.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":169
+/* "oseq/_oseq.pyx":171
  *         self._cmp = cmp # defaults to cmp func
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -2362,9 +2467,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_2__iter__(struct __pyx_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__iter__", 0);
+  __Pyx_TraceCall("__iter__", __pyx_f[0], 171);
 
-  /* "oseq/_oseq.pyx":171
+  /* "oseq/_oseq.pyx":173
  *     def __iter__(self):
  *         """Returns Iterator for Iterator protocol"""
  *         return _DirectedInOrderIterator(self._root, self._nil)             # <<<<<<<<<<<<<<
@@ -2372,7 +2479,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_2__iter__(struct __pyx_
  *     def __reversed__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->_root));
   PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)__pyx_v_self->_root));
@@ -2380,14 +2487,14 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_2__iter__(struct __pyx_
   __Pyx_INCREF(((PyObject *)__pyx_v_self->_nil));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self->_nil));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->_nil));
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__DirectedInOrderIterator)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__DirectedInOrderIterator)), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":169
+  /* "oseq/_oseq.pyx":171
  *         self._cmp = cmp # defaults to cmp func
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -2403,11 +2510,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_2__iter__(struct __pyx_
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":173
+/* "oseq/_oseq.pyx":175
  *         return _DirectedInOrderIterator(self._root, self._nil)
  * 
  *     def __reversed__(self):             # <<<<<<<<<<<<<<
@@ -2438,9 +2546,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_4__reversed__(struct __
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__reversed__", 0);
+  __Pyx_TraceCall("__reversed__", __pyx_f[0], 175);
 
-  /* "oseq/_oseq.pyx":175
+  /* "oseq/_oseq.pyx":177
  *     def __reversed__(self):
  *         """Returns Iterator in reversed direction for Iterator protocol"""
  *         return _DirectedInOrderIterator(self._root, self._nil, forward = False)             # <<<<<<<<<<<<<<
@@ -2448,7 +2558,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_4__reversed__(struct __
  *     def __len__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->_root));
   PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)__pyx_v_self->_root));
@@ -2456,10 +2566,10 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_4__reversed__(struct __
   __Pyx_INCREF(((PyObject *)__pyx_v_self->_nil));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self->_nil));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->_nil));
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_forward, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__DirectedInOrderIterator)), __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_forward, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__DirectedInOrderIterator)), __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2467,7 +2577,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_4__reversed__(struct __
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":173
+  /* "oseq/_oseq.pyx":175
  *         return _DirectedInOrderIterator(self._root, self._nil)
  * 
  *     def __reversed__(self):             # <<<<<<<<<<<<<<
@@ -2484,11 +2594,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_4__reversed__(struct __
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":177
+/* "oseq/_oseq.pyx":179
  *         return _DirectedInOrderIterator(self._root, self._nil, forward = False)
  * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -2516,9 +2627,11 @@ static Py_ssize_t __pyx_pw_4oseq_5_oseq_15OrderedSequence_7__len__(PyObject *__p
 static Py_ssize_t __pyx_pf_4oseq_5_oseq_15OrderedSequence_6__len__(struct __pyx_obj_4oseq_5_oseq_OrderedSequence *__pyx_v_self) {
   Py_ssize_t __pyx_r;
   __Pyx_RefNannyDeclarations
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__len__", 0);
+  __Pyx_TraceCall("__len__", __pyx_f[0], 179);
 
-  /* "oseq/_oseq.pyx":180
+  /* "oseq/_oseq.pyx":182
  *         """Returns number of items in the OrderedSequence
  *         """
  *         return self._ct             # <<<<<<<<<<<<<<
@@ -2528,7 +2641,7 @@ static Py_ssize_t __pyx_pf_4oseq_5_oseq_15OrderedSequence_6__len__(struct __pyx_
   __pyx_r = __pyx_v_self->_ct;
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":177
+  /* "oseq/_oseq.pyx":179
  *         return _DirectedInOrderIterator(self._root, self._nil, forward = False)
  * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -2538,11 +2651,12 @@ static Py_ssize_t __pyx_pf_4oseq_5_oseq_15OrderedSequence_6__len__(struct __pyx_
 
   /* function exit code */
   __pyx_L0:;
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":182
+/* "oseq/_oseq.pyx":184
  *         return self._ct
  * 
  *     def __contains__(self, obj):             # <<<<<<<<<<<<<<
@@ -2575,23 +2689,25 @@ static int __pyx_pf_4oseq_5_oseq_15OrderedSequence_8__contains__(struct __pyx_ob
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("__contains__", 0);
+  __Pyx_TraceCall("__contains__", __pyx_f[0], 184);
 
-  /* "oseq/_oseq.pyx":185
+  /* "oseq/_oseq.pyx":187
  *         """Returns whether ``obj`` is in the OrderedSequence
  *         """
  *         return self._find(obj) is not None             # <<<<<<<<<<<<<<
  * 
  *     def add(self, obj): # rename to add ??
  */
-  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_find(__pyx_v_self, __pyx_v_obj)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_find(__pyx_v_self, __pyx_v_obj)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 != Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":182
+  /* "oseq/_oseq.pyx":184
  *         return self._ct
  * 
  *     def __contains__(self, obj):             # <<<<<<<<<<<<<<
@@ -2605,11 +2721,12 @@ static int __pyx_pf_4oseq_5_oseq_15OrderedSequence_8__contains__(struct __pyx_ob
   __Pyx_AddTraceback("oseq._oseq.OrderedSequence.__contains__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":187
+/* "oseq/_oseq.pyx":189
  *         return self._find(obj) is not None
  * 
  *     def add(self, obj): # rename to add ??             # <<<<<<<<<<<<<<
@@ -2638,20 +2755,22 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_10add(struct __pyx_obj_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("add", 0);
+  __Pyx_TraceCall("add", __pyx_f[0], 189);
 
-  /* "oseq/_oseq.pyx":194
+  /* "oseq/_oseq.pyx":196
  *         :returns: void
  *         """
  *         self._insert(obj)             # <<<<<<<<<<<<<<
  * 
  *     def remove(self, obj):
  */
-  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_insert(__pyx_v_self, __pyx_v_obj)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_insert(__pyx_v_self, __pyx_v_obj)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":187
+  /* "oseq/_oseq.pyx":189
  *         return self._find(obj) is not None
  * 
  *     def add(self, obj): # rename to add ??             # <<<<<<<<<<<<<<
@@ -2668,11 +2787,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_10add(struct __pyx_obj_
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":196
+/* "oseq/_oseq.pyx":198
  *         self._insert(obj)
  * 
  *     def remove(self, obj):             # <<<<<<<<<<<<<<
@@ -2703,9 +2823,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_12remove(struct __pyx_o
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("remove", 0);
+  __Pyx_TraceCall("remove", __pyx_f[0], 198);
 
-  /* "oseq/_oseq.pyx":206
+  /* "oseq/_oseq.pyx":208
  *         :raises: IndexError
  *         """
  *         result = self._remove(obj)             # <<<<<<<<<<<<<<
@@ -2714,7 +2836,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_12remove(struct __pyx_o
  */
   __pyx_v_result = ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_remove(__pyx_v_self, __pyx_v_obj);
 
-  /* "oseq/_oseq.pyx":207
+  /* "oseq/_oseq.pyx":209
  *         """
  *         result = self._remove(obj)
  *         if not result:             # <<<<<<<<<<<<<<
@@ -2724,21 +2846,21 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_12remove(struct __pyx_o
   __pyx_t_1 = ((!(__pyx_v_result != 0)) != 0);
   if (__pyx_t_1) {
 
-    /* "oseq/_oseq.pyx":208
+    /* "oseq/_oseq.pyx":210
  *         result = self._remove(obj)
  *         if not result:
  *             raise IndexError("""OrderedSequence.remove(x): \             # <<<<<<<<<<<<<<
  * x not in OrderedSequence""")
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "oseq/_oseq.pyx":196
+  /* "oseq/_oseq.pyx":198
  *         self._insert(obj)
  * 
  *     def remove(self, obj):             # <<<<<<<<<<<<<<
@@ -2755,11 +2877,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_12remove(struct __pyx_o
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":211
+/* "oseq/_oseq.pyx":213
  * x not in OrderedSequence""")
  * 
  *     def discard(self, obj):             # <<<<<<<<<<<<<<
@@ -2784,9 +2907,11 @@ static PyObject *__pyx_pw_4oseq_5_oseq_15OrderedSequence_15discard(PyObject *__p
 static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_14discard(struct __pyx_obj_4oseq_5_oseq_OrderedSequence *__pyx_v_self, PyObject *__pyx_v_obj) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("discard", 0);
+  __Pyx_TraceCall("discard", __pyx_f[0], 213);
 
-  /* "oseq/_oseq.pyx":219
+  /* "oseq/_oseq.pyx":221
  *         :returns: void
  *         """
  *         self._remove(obj)             # <<<<<<<<<<<<<<
@@ -2795,7 +2920,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_14discard(struct __pyx_
  */
   ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_remove(__pyx_v_self, __pyx_v_obj);
 
-  /* "oseq/_oseq.pyx":211
+  /* "oseq/_oseq.pyx":213
  * x not in OrderedSequence""")
  * 
  *     def discard(self, obj):             # <<<<<<<<<<<<<<
@@ -2806,11 +2931,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_14discard(struct __pyx_
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":221
+/* "oseq/_oseq.pyx":223
  *         self._remove(obj)
  * 
  *     def pop(self):             # <<<<<<<<<<<<<<
@@ -2842,9 +2968,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_16pop(struct __pyx_obj_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("pop", 0);
+  __Pyx_TraceCall("pop", __pyx_f[0], 223);
 
-  /* "oseq/_oseq.pyx":228
+  /* "oseq/_oseq.pyx":230
  *         """
  *         cdef _RedBlackNode current
  *         if self._ct > 0:             # <<<<<<<<<<<<<<
@@ -2854,19 +2982,19 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_16pop(struct __pyx_obj_
   __pyx_t_1 = ((__pyx_v_self->_ct > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "oseq/_oseq.pyx":229
+    /* "oseq/_oseq.pyx":231
  *         cdef _RedBlackNode current
  *         if self._ct > 0:
  *             current = self._max()             # <<<<<<<<<<<<<<
  *             result = self._remove(current.obj)
  *             if not result:
  */
-    __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_max(__pyx_v_self)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 229; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_max(__pyx_v_self)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 231; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_current = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "oseq/_oseq.pyx":230
+    /* "oseq/_oseq.pyx":232
  *         if self._ct > 0:
  *             current = self._max()
  *             result = self._remove(current.obj)             # <<<<<<<<<<<<<<
@@ -2878,7 +3006,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_16pop(struct __pyx_obj_
     __pyx_v_result = ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_remove(__pyx_v_self, __pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "oseq/_oseq.pyx":231
+    /* "oseq/_oseq.pyx":233
  *             current = self._max()
  *             result = self._remove(current.obj)
  *             if not result:             # <<<<<<<<<<<<<<
@@ -2888,21 +3016,21 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_16pop(struct __pyx_obj_
     __pyx_t_1 = ((!(__pyx_v_result != 0)) != 0);
     if (__pyx_t_1) {
 
-      /* "oseq/_oseq.pyx":232
+      /* "oseq/_oseq.pyx":234
  *             result = self._remove(current.obj)
  *             if not result:
  *                 raise IndexError("""OrderedSequence.pop(x): \             # <<<<<<<<<<<<<<
  * x not in OrderedSequence (is your sort stable?)""")
  *             return current.obj
  */
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_Raise(__pyx_t_2, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
 
-    /* "oseq/_oseq.pyx":234
+    /* "oseq/_oseq.pyx":236
  *                 raise IndexError("""OrderedSequence.pop(x): \
  * x not in OrderedSequence (is your sort stable?)""")
  *             return current.obj             # <<<<<<<<<<<<<<
@@ -2916,21 +3044,21 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_16pop(struct __pyx_obj_
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":236
+    /* "oseq/_oseq.pyx":238
  *             return current.obj
  *         else:
  *             raise IndexError('pop from an empty OrderedSequence')             # <<<<<<<<<<<<<<
  * 
  *     def popleft(self):
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "oseq/_oseq.pyx":221
+  /* "oseq/_oseq.pyx":223
  *         self._remove(obj)
  * 
  *     def pop(self):             # <<<<<<<<<<<<<<
@@ -2946,11 +3074,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_16pop(struct __pyx_obj_
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_current);
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":238
+/* "oseq/_oseq.pyx":240
  *             raise IndexError('pop from an empty OrderedSequence')
  * 
  *     def popleft(self):             # <<<<<<<<<<<<<<
@@ -2982,9 +3111,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_18popleft(struct __pyx_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("popleft", 0);
+  __Pyx_TraceCall("popleft", __pyx_f[0], 240);
 
-  /* "oseq/_oseq.pyx":245
+  /* "oseq/_oseq.pyx":247
  *         """
  *         cdef _RedBlackNode current
  *         if self._ct > 0:             # <<<<<<<<<<<<<<
@@ -2994,19 +3125,19 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_18popleft(struct __pyx_
   __pyx_t_1 = ((__pyx_v_self->_ct > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "oseq/_oseq.pyx":246
+    /* "oseq/_oseq.pyx":248
  *         cdef _RedBlackNode current
  *         if self._ct > 0:
  *             current = self._min()             # <<<<<<<<<<<<<<
  *             result = self._remove(current.obj)
  *             if not result:
  */
-    __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_min(__pyx_v_self)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 246; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_min(__pyx_v_self)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_current = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "oseq/_oseq.pyx":247
+    /* "oseq/_oseq.pyx":249
  *         if self._ct > 0:
  *             current = self._min()
  *             result = self._remove(current.obj)             # <<<<<<<<<<<<<<
@@ -3018,7 +3149,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_18popleft(struct __pyx_
     __pyx_v_result = ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_remove(__pyx_v_self, __pyx_t_2);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "oseq/_oseq.pyx":248
+    /* "oseq/_oseq.pyx":250
  *             current = self._min()
  *             result = self._remove(current.obj)
  *             if not result:             # <<<<<<<<<<<<<<
@@ -3028,21 +3159,21 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_18popleft(struct __pyx_
     __pyx_t_1 = ((!(__pyx_v_result != 0)) != 0);
     if (__pyx_t_1) {
 
-      /* "oseq/_oseq.pyx":249
+      /* "oseq/_oseq.pyx":251
  *             result = self._remove(current.obj)
  *             if not result:
  *                 raise IndexError("""OrderedSequence.popleft(x): \             # <<<<<<<<<<<<<<
  * x not in OrderedSequence (is your sort stable?)""")
  *             return current.obj
  */
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 249; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 251; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_Raise(__pyx_t_2, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 249; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 251; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
 
-    /* "oseq/_oseq.pyx":251
+    /* "oseq/_oseq.pyx":253
  *                 raise IndexError("""OrderedSequence.popleft(x): \
  * x not in OrderedSequence (is your sort stable?)""")
  *             return current.obj             # <<<<<<<<<<<<<<
@@ -3056,21 +3187,21 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_18popleft(struct __pyx_
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":253
+    /* "oseq/_oseq.pyx":255
  *             return current.obj
  *         else:
  *             raise IndexError('pop from an empty OrderedSequence')             # <<<<<<<<<<<<<<
  * 
  *     def min(self):
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 253; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 253; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "oseq/_oseq.pyx":238
+  /* "oseq/_oseq.pyx":240
  *             raise IndexError('pop from an empty OrderedSequence')
  * 
  *     def popleft(self):             # <<<<<<<<<<<<<<
@@ -3086,11 +3217,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_18popleft(struct __pyx_
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_current);
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":255
+/* "oseq/_oseq.pyx":257
  *             raise IndexError('pop from an empty OrderedSequence')
  * 
  *     def min(self):             # <<<<<<<<<<<<<<
@@ -3121,9 +3253,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_20min(struct __pyx_obj_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("min", 0);
+  __Pyx_TraceCall("min", __pyx_f[0], 257);
 
-  /* "oseq/_oseq.pyx":260
+  /* "oseq/_oseq.pyx":262
  *         """
  *         cdef _RedBlackNode current
  *         if self._ct > 0:             # <<<<<<<<<<<<<<
@@ -3133,19 +3267,19 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_20min(struct __pyx_obj_
   __pyx_t_1 = ((__pyx_v_self->_ct > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "oseq/_oseq.pyx":261
+    /* "oseq/_oseq.pyx":263
  *         cdef _RedBlackNode current
  *         if self._ct > 0:
  *             current = self._min()             # <<<<<<<<<<<<<<
  *             return current.obj
  *         else:
  */
-    __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_min(__pyx_v_self)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_min(__pyx_v_self)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 263; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_current = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "oseq/_oseq.pyx":262
+    /* "oseq/_oseq.pyx":264
  *         if self._ct > 0:
  *             current = self._min()
  *             return current.obj             # <<<<<<<<<<<<<<
@@ -3159,21 +3293,21 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_20min(struct __pyx_obj_
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":264
+    /* "oseq/_oseq.pyx":266
  *             return current.obj
  *         else:
  *             raise IndexError("Empty OrderedSequence has no min")             # <<<<<<<<<<<<<<
  * 
  *     def max(self):
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 266; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 266; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "oseq/_oseq.pyx":255
+  /* "oseq/_oseq.pyx":257
  *             raise IndexError('pop from an empty OrderedSequence')
  * 
  *     def min(self):             # <<<<<<<<<<<<<<
@@ -3189,11 +3323,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_20min(struct __pyx_obj_
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_current);
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":266
+/* "oseq/_oseq.pyx":268
  *             raise IndexError("Empty OrderedSequence has no min")
  * 
  *     def max(self):             # <<<<<<<<<<<<<<
@@ -3224,9 +3359,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_22max(struct __pyx_obj_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("max", 0);
+  __Pyx_TraceCall("max", __pyx_f[0], 268);
 
-  /* "oseq/_oseq.pyx":271
+  /* "oseq/_oseq.pyx":273
  *         """
  *         cdef _RedBlackNode current
  *         if self._ct > 0:             # <<<<<<<<<<<<<<
@@ -3236,19 +3373,19 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_22max(struct __pyx_obj_
   __pyx_t_1 = ((__pyx_v_self->_ct > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "oseq/_oseq.pyx":272
+    /* "oseq/_oseq.pyx":274
  *         cdef _RedBlackNode current
  *         if self._ct > 0:
  *             current = self._max()             # <<<<<<<<<<<<<<
  *             return current.obj
  *         else:
  */
-    __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_max(__pyx_v_self)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 272; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_max(__pyx_v_self)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 274; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_current = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "oseq/_oseq.pyx":273
+    /* "oseq/_oseq.pyx":275
  *         if self._ct > 0:
  *             current = self._max()
  *             return current.obj             # <<<<<<<<<<<<<<
@@ -3262,21 +3399,21 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_22max(struct __pyx_obj_
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":275
+    /* "oseq/_oseq.pyx":277
  *             return current.obj
  *         else:
  *             raise IndexError("Empty OrderedSequence has no max")             # <<<<<<<<<<<<<<
  * 
  *     # Private methods / Cython implementation
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "oseq/_oseq.pyx":266
+  /* "oseq/_oseq.pyx":268
  *             raise IndexError("Empty OrderedSequence has no min")
  * 
  *     def max(self):             # <<<<<<<<<<<<<<
@@ -3292,11 +3429,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_22max(struct __pyx_obj_
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_current);
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":279
+/* "oseq/_oseq.pyx":281
  *     # Private methods / Cython implementation
  *     #------------------------------------------------------------------------
  *     cdef _RedBlackNode _find(self, obj):             # <<<<<<<<<<<<<<
@@ -3318,9 +3456,11 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_find", 0);
+  __Pyx_TraceCall("_find", __pyx_f[0], 281);
 
-  /* "oseq/_oseq.pyx":283
+  /* "oseq/_oseq.pyx":285
  *         """
  *         cdef _RedBlackNode z
  *         z = self._root             # <<<<<<<<<<<<<<
@@ -3332,7 +3472,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_v_z = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":284
+  /* "oseq/_oseq.pyx":286
  *         cdef _RedBlackNode z
  *         z = self._root
  *         while z is not self._nil:             # <<<<<<<<<<<<<<
@@ -3344,7 +3484,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (!__pyx_t_3) break;
 
-    /* "oseq/_oseq.pyx":286
+    /* "oseq/_oseq.pyx":288
  *         while z is not self._nil:
  *             # if obj == z.obj:
  *             if self._cmp(obj, z.obj) == EQ:             # <<<<<<<<<<<<<<
@@ -3364,7 +3504,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
         __pyx_t_6 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
@@ -3375,20 +3515,20 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __Pyx_INCREF(__pyx_v_z->obj);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_z->obj);
     __Pyx_GIVEREF(__pyx_v_z->obj);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":287
+      /* "oseq/_oseq.pyx":289
  *             # if obj == z.obj:
  *             if self._cmp(obj, z.obj) == EQ:
  *                 break             # <<<<<<<<<<<<<<
@@ -3399,7 +3539,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     }
     /*else*/ {
 
-      /* "oseq/_oseq.pyx":289
+      /* "oseq/_oseq.pyx":291
  *                 break
  *             else:
  *                 if self._cmp(obj, z.obj) == LT:             # <<<<<<<<<<<<<<
@@ -3419,7 +3559,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
           __pyx_t_6 = 1;
         }
       }
-      __pyx_t_5 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 289; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 291; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       if (__pyx_t_1) {
         PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1); __Pyx_GIVEREF(__pyx_t_1); __pyx_t_1 = NULL;
@@ -3430,20 +3570,20 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
       __Pyx_INCREF(__pyx_v_z->obj);
       PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_6, __pyx_v_z->obj);
       __Pyx_GIVEREF(__pyx_v_z->obj);
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 289; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 291; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_LT); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 289; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_LT); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 291; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 289; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 291; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 289; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 291; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_3) {
 
-        /* "oseq/_oseq.pyx":291
+        /* "oseq/_oseq.pyx":293
  *                 if self._cmp(obj, z.obj) == LT:
  *                 #if obj < z.obj:
  *                     z = z.left             # <<<<<<<<<<<<<<
@@ -3458,7 +3598,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
       }
       /*else*/ {
 
-        /* "oseq/_oseq.pyx":293
+        /* "oseq/_oseq.pyx":295
  *                     z = z.left
  *                 else:
  *                     z = z.right             # <<<<<<<<<<<<<<
@@ -3475,7 +3615,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   }
   __pyx_L4_break:;
 
-  /* "oseq/_oseq.pyx":294
+  /* "oseq/_oseq.pyx":296
  *                 else:
  *                     z = z.right
  *         if z is not self._nil:             # <<<<<<<<<<<<<<
@@ -3486,7 +3626,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":295
+    /* "oseq/_oseq.pyx":297
  *                     z = z.right
  *         if z is not self._nil:
  *             while z.next is not None:             # <<<<<<<<<<<<<<
@@ -3498,7 +3638,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
       __pyx_t_3 = (__pyx_t_2 != 0);
       if (!__pyx_t_3) break;
 
-      /* "oseq/_oseq.pyx":297
+      /* "oseq/_oseq.pyx":299
  *             while z.next is not None:
  *                 #if z.obj == obj:
  *                 if self._cmp(obj, z.obj) == EQ:             # <<<<<<<<<<<<<<
@@ -3518,7 +3658,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
           __pyx_t_6 = 1;
         }
       }
-      __pyx_t_1 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 299; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       if (__pyx_t_7) {
         PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_7); __Pyx_GIVEREF(__pyx_t_7); __pyx_t_7 = NULL;
@@ -3529,20 +3669,20 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
       __Pyx_INCREF(__pyx_v_z->obj);
       PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_6, __pyx_v_z->obj);
       __Pyx_GIVEREF(__pyx_v_z->obj);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 299; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 299; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_1 = PyObject_RichCompare(__pyx_t_5, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = PyObject_RichCompare(__pyx_t_5, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 299; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 299; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_3) {
 
-        /* "oseq/_oseq.pyx":298
+        /* "oseq/_oseq.pyx":300
  *                 #if z.obj == obj:
  *                 if self._cmp(obj, z.obj) == EQ:
  *                     break             # <<<<<<<<<<<<<<
@@ -3552,7 +3692,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
         goto __pyx_L9_break;
       }
 
-      /* "oseq/_oseq.pyx":299
+      /* "oseq/_oseq.pyx":301
  *                 if self._cmp(obj, z.obj) == EQ:
  *                     break
  *                 z = z.next             # <<<<<<<<<<<<<<
@@ -3566,7 +3706,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     }
     __pyx_L9_break:;
 
-    /* "oseq/_oseq.pyx":302
+    /* "oseq/_oseq.pyx":304
  * 
  *             #if z.obj == obj:
  *             if self._cmp(obj, z.obj) == EQ:             # <<<<<<<<<<<<<<
@@ -3586,7 +3726,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
         __pyx_t_6 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 302; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 304; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
@@ -3597,20 +3737,20 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __Pyx_INCREF(__pyx_v_z->obj);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_z->obj);
     __Pyx_GIVEREF(__pyx_v_z->obj);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 302; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 304; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 302; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 304; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 302; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 304; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 302; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 304; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":303
+      /* "oseq/_oseq.pyx":305
  *             #if z.obj == obj:
  *             if self._cmp(obj, z.obj) == EQ:
  *                 return z             # <<<<<<<<<<<<<<
@@ -3626,7 +3766,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   }
   __pyx_L7:;
 
-  /* "oseq/_oseq.pyx":304
+  /* "oseq/_oseq.pyx":306
  *             if self._cmp(obj, z.obj) == EQ:
  *                 return z
  *         return None             # <<<<<<<<<<<<<<
@@ -3638,7 +3778,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_r = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)Py_None);
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":279
+  /* "oseq/_oseq.pyx":281
  *     # Private methods / Cython implementation
  *     #------------------------------------------------------------------------
  *     cdef _RedBlackNode _find(self, obj):             # <<<<<<<<<<<<<<
@@ -3657,11 +3797,12 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_z);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":306
+/* "oseq/_oseq.pyx":308
  *         return None
  * 
  *     cdef _RedBlackNode _min(self):             # <<<<<<<<<<<<<<
@@ -3676,9 +3817,11 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
   int __pyx_t_3;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_min", 0);
+  __Pyx_TraceCall("_min", __pyx_f[0], 308);
 
-  /* "oseq/_oseq.pyx":310
+  /* "oseq/_oseq.pyx":312
  *         """
  *         cdef _RedBlackNode current
  *         current = self._root             # <<<<<<<<<<<<<<
@@ -3690,7 +3833,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_v_current = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":311
+  /* "oseq/_oseq.pyx":313
  *         cdef _RedBlackNode current
  *         current = self._root
  *         while current.left is not self._nil:             # <<<<<<<<<<<<<<
@@ -3702,7 +3845,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (!__pyx_t_3) break;
 
-    /* "oseq/_oseq.pyx":312
+    /* "oseq/_oseq.pyx":314
  *         current = self._root
  *         while current.left is not self._nil:
  *             current = current.left             # <<<<<<<<<<<<<<
@@ -3715,7 +3858,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __pyx_t_1 = 0;
   }
 
-  /* "oseq/_oseq.pyx":313
+  /* "oseq/_oseq.pyx":315
  *         while current.left is not self._nil:
  *             current = current.left
  *         return current             # <<<<<<<<<<<<<<
@@ -3727,7 +3870,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_r = __pyx_v_current;
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":306
+  /* "oseq/_oseq.pyx":308
  *         return None
  * 
  *     cdef _RedBlackNode _min(self):             # <<<<<<<<<<<<<<
@@ -3739,11 +3882,12 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_current);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":315
+/* "oseq/_oseq.pyx":317
  *         return current
  * 
  *     cdef _RedBlackNode _max(self):             # <<<<<<<<<<<<<<
@@ -3758,9 +3902,11 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
   int __pyx_t_3;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_max", 0);
+  __Pyx_TraceCall("_max", __pyx_f[0], 317);
 
-  /* "oseq/_oseq.pyx":319
+  /* "oseq/_oseq.pyx":321
  *         """
  *         cdef _RedBlackNode current
  *         current = self._root             # <<<<<<<<<<<<<<
@@ -3772,7 +3918,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_v_current = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":320
+  /* "oseq/_oseq.pyx":322
  *         cdef _RedBlackNode current
  *         current = self._root
  *         while current.right is not self._nil:             # <<<<<<<<<<<<<<
@@ -3784,7 +3930,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (!__pyx_t_3) break;
 
-    /* "oseq/_oseq.pyx":321
+    /* "oseq/_oseq.pyx":323
  *         current = self._root
  *         while current.right is not self._nil:
  *             current = current.right             # <<<<<<<<<<<<<<
@@ -3797,7 +3943,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __pyx_t_1 = 0;
   }
 
-  /* "oseq/_oseq.pyx":322
+  /* "oseq/_oseq.pyx":324
  *         while current.right is not self._nil:
  *             current = current.right
  *         while current.next is not None:             # <<<<<<<<<<<<<<
@@ -3809,7 +3955,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __pyx_t_2 = (__pyx_t_3 != 0);
     if (!__pyx_t_2) break;
 
-    /* "oseq/_oseq.pyx":323
+    /* "oseq/_oseq.pyx":325
  *             current = current.right
  *         while current.next is not None:
  *             current = current.next             # <<<<<<<<<<<<<<
@@ -3822,7 +3968,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __pyx_t_1 = 0;
   }
 
-  /* "oseq/_oseq.pyx":324
+  /* "oseq/_oseq.pyx":326
  *         while current.next is not None:
  *             current = current.next
  *         return current             # <<<<<<<<<<<<<<
@@ -3834,7 +3980,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_r = __pyx_v_current;
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":315
+  /* "oseq/_oseq.pyx":317
  *         return current
  * 
  *     cdef _RedBlackNode _max(self):             # <<<<<<<<<<<<<<
@@ -3846,11 +3992,12 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_current);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":326
+/* "oseq/_oseq.pyx":328
  *         return current
  * 
  *     cdef _RedBlackNode _insert(self, obj):             # <<<<<<<<<<<<<<
@@ -3874,9 +4021,11 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_insert", 0);
+  __Pyx_TraceCall("_insert", __pyx_f[0], 328);
 
-  /* "oseq/_oseq.pyx":330
+  /* "oseq/_oseq.pyx":332
  *         """
  *         cdef _RedBlackNode current, parent, x
  *         parent = None             # <<<<<<<<<<<<<<
@@ -3886,7 +4035,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __Pyx_INCREF(Py_None);
   __pyx_v_parent = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)Py_None);
 
-  /* "oseq/_oseq.pyx":331
+  /* "oseq/_oseq.pyx":333
  *         cdef _RedBlackNode current, parent, x
  *         parent = None
  *         current = self._root             # <<<<<<<<<<<<<<
@@ -3898,7 +4047,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_v_current = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":332
+  /* "oseq/_oseq.pyx":334
  *         parent = None
  *         current = self._root
  *         while current is not self._nil:             # <<<<<<<<<<<<<<
@@ -3910,7 +4059,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (!__pyx_t_3) break;
 
-    /* "oseq/_oseq.pyx":333
+    /* "oseq/_oseq.pyx":335
  *         current = self._root
  *         while current is not self._nil:
  *             if self._cmp(obj, current.obj) == EQ:             # <<<<<<<<<<<<<<
@@ -3930,7 +4079,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
         __pyx_t_6 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 335; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
@@ -3941,20 +4090,20 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __Pyx_INCREF(__pyx_v_current->obj);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_current->obj);
     __Pyx_GIVEREF(__pyx_v_current->obj);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 335; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 335; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 335; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 335; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":334
+      /* "oseq/_oseq.pyx":336
  *         while current is not self._nil:
  *             if self._cmp(obj, current.obj) == EQ:
  *                 self._ct += 1             # <<<<<<<<<<<<<<
@@ -3963,7 +4112,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
  */
       __pyx_v_self->_ct = (__pyx_v_self->_ct + 1);
 
-      /* "oseq/_oseq.pyx":336
+      /* "oseq/_oseq.pyx":338
  *                 self._ct += 1
  *                 # insert in this node as duplicate, at end of list
  *                 while current.next is not None:             # <<<<<<<<<<<<<<
@@ -3975,7 +4124,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
         __pyx_t_2 = (__pyx_t_3 != 0);
         if (!__pyx_t_2) break;
 
-        /* "oseq/_oseq.pyx":337
+        /* "oseq/_oseq.pyx":339
  *                 # insert in this node as duplicate, at end of list
  *                 while current.next is not None:
  *                     current = current.next             # <<<<<<<<<<<<<<
@@ -3988,67 +4137,67 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
         __pyx_t_7 = 0;
       }
 
-      /* "oseq/_oseq.pyx":338
+      /* "oseq/_oseq.pyx":340
  *                 while current.next is not None:
  *                     current = current.next
  *                 x = _RedBlackNode(obj, color = DUPLICATE,             # <<<<<<<<<<<<<<
  *                                   left = self._nil,
  *                                   right = self._nil,
  */
-      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_INCREF(__pyx_v_obj);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_obj);
       __Pyx_GIVEREF(__pyx_v_obj);
-      __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_1 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_DUPLICATE); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_DUPLICATE); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_color, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_color, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "oseq/_oseq.pyx":339
+      /* "oseq/_oseq.pyx":341
  *                     current = current.next
  *                 x = _RedBlackNode(obj, color = DUPLICATE,
  *                                   left = self._nil,             # <<<<<<<<<<<<<<
  *                                   right = self._nil,
  *                                   parent = None)
  */
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_left, ((PyObject *)__pyx_v_self->_nil)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_left, ((PyObject *)__pyx_v_self->_nil)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "oseq/_oseq.pyx":340
+      /* "oseq/_oseq.pyx":342
  *                 x = _RedBlackNode(obj, color = DUPLICATE,
  *                                   left = self._nil,
  *                                   right = self._nil,             # <<<<<<<<<<<<<<
  *                                   parent = None)
  *                 current.next = x
  */
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_right, ((PyObject *)__pyx_v_self->_nil)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_right, ((PyObject *)__pyx_v_self->_nil)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "oseq/_oseq.pyx":341
+      /* "oseq/_oseq.pyx":343
  *                                   left = self._nil,
  *                                   right = self._nil,
  *                                   parent = None)             # <<<<<<<<<<<<<<
  *                 current.next = x
  *                 return x
  */
-      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_parent, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_parent, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "oseq/_oseq.pyx":338
+      /* "oseq/_oseq.pyx":340
  *                 while current.next is not None:
  *                     current = current.next
  *                 x = _RedBlackNode(obj, color = DUPLICATE,             # <<<<<<<<<<<<<<
  *                                   left = self._nil,
  *                                   right = self._nil,
  */
-      __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__RedBlackNode)), __pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__RedBlackNode)), __pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_v_x = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "oseq/_oseq.pyx":342
+      /* "oseq/_oseq.pyx":344
  *                                   right = self._nil,
  *                                   parent = None)
  *                 current.next = x             # <<<<<<<<<<<<<<
@@ -4061,7 +4210,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
       __Pyx_DECREF(((PyObject *)__pyx_v_current->next));
       __pyx_v_current->next = __pyx_v_x;
 
-      /* "oseq/_oseq.pyx":343
+      /* "oseq/_oseq.pyx":345
  *                                   parent = None)
  *                 current.next = x
  *                 return x             # <<<<<<<<<<<<<<
@@ -4074,7 +4223,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
       goto __pyx_L0;
     }
 
-    /* "oseq/_oseq.pyx":344
+    /* "oseq/_oseq.pyx":346
  *                 current.next = x
  *                 return x
  *             parent = current             # <<<<<<<<<<<<<<
@@ -4084,7 +4233,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __Pyx_INCREF(((PyObject *)__pyx_v_current));
     __Pyx_DECREF_SET(__pyx_v_parent, __pyx_v_current);
 
-    /* "oseq/_oseq.pyx":345
+    /* "oseq/_oseq.pyx":347
  *                 return x
  *             parent = current
  *             if self._cmp(obj, current.obj) == LT:             # <<<<<<<<<<<<<<
@@ -4104,7 +4253,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
         __pyx_t_6 = 1;
       }
     }
-    __pyx_t_5 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_7) {
       PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __Pyx_GIVEREF(__pyx_t_7); __pyx_t_7 = NULL;
@@ -4115,20 +4264,20 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __Pyx_INCREF(__pyx_v_current->obj);
     PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_6, __pyx_v_current->obj);
     __Pyx_GIVEREF(__pyx_v_current->obj);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_LT); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_LT); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_2) {
 
-      /* "oseq/_oseq.pyx":346
+      /* "oseq/_oseq.pyx":348
  *             parent = current
  *             if self._cmp(obj, current.obj) == LT:
  *                 current = current.left             # <<<<<<<<<<<<<<
@@ -4143,7 +4292,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     }
     /*else*/ {
 
-      /* "oseq/_oseq.pyx":348
+      /* "oseq/_oseq.pyx":350
  *                 current = current.left
  *             else:
  *                 current = current.right             # <<<<<<<<<<<<<<
@@ -4158,76 +4307,76 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __pyx_L8:;
   }
 
-  /* "oseq/_oseq.pyx":350
+  /* "oseq/_oseq.pyx":352
  *                 current = current.right
  *         # setup new node
  *         x = _RedBlackNode(obj, color = RED,             # <<<<<<<<<<<<<<
  *                           left = self._nil,
  *                           right = self._nil,
  */
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_v_obj);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_obj);
   __Pyx_GIVEREF(__pyx_v_obj);
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_RED); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_RED); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_color, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_color, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":351
+  /* "oseq/_oseq.pyx":353
  *         # setup new node
  *         x = _RedBlackNode(obj, color = RED,
  *                           left = self._nil,             # <<<<<<<<<<<<<<
  *                           right = self._nil,
  *                           parent = parent,
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_left, ((PyObject *)__pyx_v_self->_nil)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_left, ((PyObject *)__pyx_v_self->_nil)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "oseq/_oseq.pyx":352
+  /* "oseq/_oseq.pyx":354
  *         x = _RedBlackNode(obj, color = RED,
  *                           left = self._nil,
  *                           right = self._nil,             # <<<<<<<<<<<<<<
  *                           parent = parent,
  *                           next = None)
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_right, ((PyObject *)__pyx_v_self->_nil)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_right, ((PyObject *)__pyx_v_self->_nil)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "oseq/_oseq.pyx":353
+  /* "oseq/_oseq.pyx":355
  *                           left = self._nil,
  *                           right = self._nil,
  *                           parent = parent,             # <<<<<<<<<<<<<<
  *                           next = None)
  *         # insert node in tree
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_parent, ((PyObject *)__pyx_v_parent)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_parent, ((PyObject *)__pyx_v_parent)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "oseq/_oseq.pyx":354
+  /* "oseq/_oseq.pyx":356
  *                           right = self._nil,
  *                           parent = parent,
  *                           next = None)             # <<<<<<<<<<<<<<
  *         # insert node in tree
  *         if parent is None:
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_next, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_next, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "oseq/_oseq.pyx":350
+  /* "oseq/_oseq.pyx":352
  *                 current = current.right
  *         # setup new node
  *         x = _RedBlackNode(obj, color = RED,             # <<<<<<<<<<<<<<
  *                           left = self._nil,
  *                           right = self._nil,
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__RedBlackNode)), __pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4oseq_5_oseq__RedBlackNode)), __pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 352; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_x = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":356
+  /* "oseq/_oseq.pyx":358
  *                           next = None)
  *         # insert node in tree
  *         if parent is None:             # <<<<<<<<<<<<<<
@@ -4238,7 +4387,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "oseq/_oseq.pyx":357
+    /* "oseq/_oseq.pyx":359
  *         # insert node in tree
  *         if parent is None:
  *             x.color = BLACK             # <<<<<<<<<<<<<<
@@ -4247,7 +4396,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
  */
     __pyx_v_x->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-    /* "oseq/_oseq.pyx":358
+    /* "oseq/_oseq.pyx":360
  *         if parent is None:
  *             x.color = BLACK
  *             self._root = x             # <<<<<<<<<<<<<<
@@ -4263,7 +4412,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":361
+    /* "oseq/_oseq.pyx":363
  *         else:
  *             #if obj < parent.obj:
  *             if self._cmp(obj, parent.obj) == LT:             # <<<<<<<<<<<<<<
@@ -4283,7 +4432,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
         __pyx_t_6 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 361; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 363; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
@@ -4294,20 +4443,20 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     __Pyx_INCREF(__pyx_v_parent->obj);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_parent->obj);
     __Pyx_GIVEREF(__pyx_v_parent->obj);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 361; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 363; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_LT); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 361; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_LT); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 363; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 361; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 363; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 361; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 363; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":362
+      /* "oseq/_oseq.pyx":364
  *             #if obj < parent.obj:
  *             if self._cmp(obj, parent.obj) == LT:
  *                 parent.left = x             # <<<<<<<<<<<<<<
@@ -4323,7 +4472,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
     }
     /*else*/ {
 
-      /* "oseq/_oseq.pyx":364
+      /* "oseq/_oseq.pyx":366
  *                 parent.left = x
  *             else:
  *                 parent.right = x             # <<<<<<<<<<<<<<
@@ -4340,7 +4489,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   }
   __pyx_L9:;
 
-  /* "oseq/_oseq.pyx":365
+  /* "oseq/_oseq.pyx":367
  *             else:
  *                 parent.right = x
  *         self._insert_fixup(x)             # <<<<<<<<<<<<<<
@@ -4349,7 +4498,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
  */
   ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_insert_fixup(__pyx_v_self, __pyx_v_x);
 
-  /* "oseq/_oseq.pyx":366
+  /* "oseq/_oseq.pyx":368
  *                 parent.right = x
  *         self._insert_fixup(x)
  *         self._ct += 1             # <<<<<<<<<<<<<<
@@ -4358,7 +4507,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
  */
   __pyx_v_self->_ct = (__pyx_v_self->_ct + 1);
 
-  /* "oseq/_oseq.pyx":367
+  /* "oseq/_oseq.pyx":369
  *         self._insert_fixup(x)
  *         self._ct += 1
  *         return x             # <<<<<<<<<<<<<<
@@ -4370,7 +4519,7 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __pyx_r = __pyx_v_x;
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":326
+  /* "oseq/_oseq.pyx":328
  *         return current
  * 
  *     cdef _RedBlackNode _insert(self, obj):             # <<<<<<<<<<<<<<
@@ -4391,11 +4540,12 @@ static struct __pyx_obj_4oseq_5_oseq__RedBlackNode *__pyx_f_4oseq_5_oseq_15Order
   __Pyx_XDECREF((PyObject *)__pyx_v_parent);
   __Pyx_XDECREF((PyObject *)__pyx_v_x);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":369
+/* "oseq/_oseq.pyx":371
  *         return x
  * 
  *     cdef bint _remove(self, obj):             # <<<<<<<<<<<<<<
@@ -4426,9 +4576,11 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_remove", 0);
+  __Pyx_TraceCall("_remove", __pyx_f[0], 371);
 
-  /* "oseq/_oseq.pyx":376
+  /* "oseq/_oseq.pyx":378
  *         cdef bint found
  *         cdef _RedBlackNode x, y, z
  *         try:             # <<<<<<<<<<<<<<
@@ -4442,7 +4594,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
     __Pyx_XGOTREF(__pyx_t_3);
     /*try:*/ {
 
-      /* "oseq/_oseq.pyx":377
+      /* "oseq/_oseq.pyx":379
  *         cdef _RedBlackNode x, y, z
  *         try:
  *             found = False             # <<<<<<<<<<<<<<
@@ -4451,7 +4603,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
  */
       __pyx_v_found = 0;
 
-      /* "oseq/_oseq.pyx":378
+      /* "oseq/_oseq.pyx":380
  *         try:
  *             found = False
  *             z = self._root             # <<<<<<<<<<<<<<
@@ -4463,7 +4615,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
       __pyx_v_z = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "oseq/_oseq.pyx":379
+      /* "oseq/_oseq.pyx":381
  *             found = False
  *             z = self._root
  *             while z is not self._nil:             # <<<<<<<<<<<<<<
@@ -4475,7 +4627,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
         __pyx_t_6 = (__pyx_t_5 != 0);
         if (!__pyx_t_6) break;
 
-        /* "oseq/_oseq.pyx":381
+        /* "oseq/_oseq.pyx":383
  *             while z is not self._nil:
  *                 # _RedBlackNode in list has obj we are looking for
  *                 if self._cmp(obj, z.obj) == EQ:             # <<<<<<<<<<<<<<
@@ -4495,7 +4647,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             __pyx_t_9 = 1;
           }
         }
-        __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 381; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_10);
         if (__pyx_t_8) {
           PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __Pyx_GIVEREF(__pyx_t_8); __pyx_t_8 = NULL;
@@ -4506,20 +4658,20 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
         __Pyx_INCREF(__pyx_v_z->obj);
         PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_v_z->obj);
         __Pyx_GIVEREF(__pyx_v_z->obj);
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 381; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 381; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_10 = PyObject_RichCompare(__pyx_t_4, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 381; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_10 = PyObject_RichCompare(__pyx_t_4, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 381; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         if (__pyx_t_6) {
 
-          /* "oseq/_oseq.pyx":383
+          /* "oseq/_oseq.pyx":385
  *                 if self._cmp(obj, z.obj) == EQ:
  *                 #if obj == z.obj:
  *                     break             # <<<<<<<<<<<<<<
@@ -4530,7 +4682,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
         }
         /*else*/ {
 
-          /* "oseq/_oseq.pyx":385
+          /* "oseq/_oseq.pyx":387
  *                     break
  *                 else:
  *                     if self._cmp(obj, z.obj) == LT:             # <<<<<<<<<<<<<<
@@ -4550,7 +4702,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
               __pyx_t_9 = 1;
             }
           }
-          __pyx_t_8 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __pyx_t_8 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
           __Pyx_GOTREF(__pyx_t_8);
           if (__pyx_t_4) {
             PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
@@ -4561,20 +4713,20 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __Pyx_INCREF(__pyx_v_z->obj);
           PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_9, __pyx_v_z->obj);
           __Pyx_GIVEREF(__pyx_v_z->obj);
-          __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_LT); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_LT); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_8 = PyObject_RichCompare(__pyx_t_10, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __pyx_t_8 = PyObject_RichCompare(__pyx_t_10, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
           if (__pyx_t_6) {
 
-            /* "oseq/_oseq.pyx":387
+            /* "oseq/_oseq.pyx":389
  *                     if self._cmp(obj, z.obj) == LT:
  *                     #if obj < z.obj:
  *                         z = z.left             # <<<<<<<<<<<<<<
@@ -4589,7 +4741,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           /*else*/ {
 
-            /* "oseq/_oseq.pyx":389
+            /* "oseq/_oseq.pyx":391
  *                         z = z.left
  *                     else:
  *                         z = z.right             # <<<<<<<<<<<<<<
@@ -4606,7 +4758,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
       }
       __pyx_L12_break:;
 
-      /* "oseq/_oseq.pyx":390
+      /* "oseq/_oseq.pyx":392
  *                     else:
  *                         z = z.right
  *             if z is not self._nil:             # <<<<<<<<<<<<<<
@@ -4617,7 +4769,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
       __pyx_t_5 = (__pyx_t_6 != 0);
       if (__pyx_t_5) {
 
-        /* "oseq/_oseq.pyx":392
+        /* "oseq/_oseq.pyx":394
  *             if z is not self._nil:
  *                 #if z.next is None and z.obj == obj:
  *                 if z.next is None and self._cmp(obj, z.obj) == EQ:             # <<<<<<<<<<<<<<
@@ -4644,7 +4796,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             __pyx_t_9 = 1;
           }
         }
-        __pyx_t_4 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 392; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_4 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_4);
         if (__pyx_t_10) {
           PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_10); __Pyx_GIVEREF(__pyx_t_10); __pyx_t_10 = NULL;
@@ -4655,22 +4807,22 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
         __Pyx_INCREF(__pyx_v_z->obj);
         PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_9, __pyx_v_z->obj);
         __Pyx_GIVEREF(__pyx_v_z->obj);
-        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 392; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 392; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_4 = PyObject_RichCompare(__pyx_t_8, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 392; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_4 = PyObject_RichCompare(__pyx_t_8, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_11 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 392; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_11 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __pyx_t_5 = __pyx_t_11;
         __pyx_L17_bool_binop_done:;
         if (__pyx_t_5) {
 
-          /* "oseq/_oseq.pyx":393
+          /* "oseq/_oseq.pyx":395
  *                 #if z.next is None and z.obj == obj:
  *                 if z.next is None and self._cmp(obj, z.obj) == EQ:
  *                     if z.left is self._nil or z.right is self._nil:             # <<<<<<<<<<<<<<
@@ -4690,7 +4842,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_L20_bool_binop_done:;
           if (__pyx_t_5) {
 
-            /* "oseq/_oseq.pyx":395
+            /* "oseq/_oseq.pyx":397
  *                     if z.left is self._nil or z.right is self._nil:
  *                         # y has a self._nil node as a child
  *                         y = z             # <<<<<<<<<<<<<<
@@ -4703,7 +4855,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           /*else*/ {
 
-            /* "oseq/_oseq.pyx":398
+            /* "oseq/_oseq.pyx":400
  *                     else:
  *                         # find tree successor with a self._nil node as a child
  *                         y = z.right             # <<<<<<<<<<<<<<
@@ -4715,7 +4867,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             __pyx_v_y = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4);
             __pyx_t_4 = 0;
 
-            /* "oseq/_oseq.pyx":399
+            /* "oseq/_oseq.pyx":401
  *                         # find tree successor with a self._nil node as a child
  *                         y = z.right
  *                         while y.left is not self._nil:             # <<<<<<<<<<<<<<
@@ -4727,7 +4879,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
               __pyx_t_11 = (__pyx_t_5 != 0);
               if (!__pyx_t_11) break;
 
-              /* "oseq/_oseq.pyx":400
+              /* "oseq/_oseq.pyx":402
  *                         y = z.right
  *                         while y.left is not self._nil:
  *                             y = y.left             # <<<<<<<<<<<<<<
@@ -4742,7 +4894,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           __pyx_L19:;
 
-          /* "oseq/_oseq.pyx":402
+          /* "oseq/_oseq.pyx":404
  *                             y = y.left
  *                     # x is y's only child
  *                     if y.left is not self._nil:             # <<<<<<<<<<<<<<
@@ -4753,7 +4905,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_t_5 = (__pyx_t_11 != 0);
           if (__pyx_t_5) {
 
-            /* "oseq/_oseq.pyx":403
+            /* "oseq/_oseq.pyx":405
  *                     # x is y's only child
  *                     if y.left is not self._nil:
  *                         x = y.left             # <<<<<<<<<<<<<<
@@ -4768,7 +4920,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           /*else*/ {
 
-            /* "oseq/_oseq.pyx":405
+            /* "oseq/_oseq.pyx":407
  *                         x = y.left
  *                     else:
  *                         x = y.right             # <<<<<<<<<<<<<<
@@ -4782,7 +4934,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           __pyx_L24:;
 
-          /* "oseq/_oseq.pyx":407
+          /* "oseq/_oseq.pyx":409
  *                         x = y.right
  *                     # remove y from the parent chain
  *                     x.parent = y.parent             # <<<<<<<<<<<<<<
@@ -4797,17 +4949,17 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_v_x->parent = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4);
           __pyx_t_4 = 0;
 
-          /* "oseq/_oseq.pyx":408
+          /* "oseq/_oseq.pyx":410
  *                     # remove y from the parent chain
  *                     x.parent = y.parent
  *                     if y.parent:             # <<<<<<<<<<<<<<
  *                         if y is y.parent.left:
  *                             y.parent.left = x
  */
-          __pyx_t_5 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_y->parent)); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 408; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __pyx_t_5 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_y->parent)); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 410; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
           if (__pyx_t_5) {
 
-            /* "oseq/_oseq.pyx":409
+            /* "oseq/_oseq.pyx":411
  *                     x.parent = y.parent
  *                     if y.parent:
  *                         if y is y.parent.left:             # <<<<<<<<<<<<<<
@@ -4818,7 +4970,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             __pyx_t_11 = (__pyx_t_5 != 0);
             if (__pyx_t_11) {
 
-              /* "oseq/_oseq.pyx":410
+              /* "oseq/_oseq.pyx":412
  *                     if y.parent:
  *                         if y is y.parent.left:
  *                             y.parent.left = x             # <<<<<<<<<<<<<<
@@ -4834,7 +4986,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             }
             /*else*/ {
 
-              /* "oseq/_oseq.pyx":412
+              /* "oseq/_oseq.pyx":414
  *                             y.parent.left = x
  *                         else:
  *                             y.parent.right = x             # <<<<<<<<<<<<<<
@@ -4852,7 +5004,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           /*else*/ {
 
-            /* "oseq/_oseq.pyx":414
+            /* "oseq/_oseq.pyx":416
  *                             y.parent.right = x
  *                     else:
  *                         self._root = x             # <<<<<<<<<<<<<<
@@ -4867,7 +5019,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           __pyx_L25:;
 
-          /* "oseq/_oseq.pyx":415
+          /* "oseq/_oseq.pyx":417
  *                     else:
  *                         self._root = x
  *                     if y is not z:             # <<<<<<<<<<<<<<
@@ -4878,7 +5030,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_t_5 = (__pyx_t_11 != 0);
           if (__pyx_t_5) {
 
-            /* "oseq/_oseq.pyx":416
+            /* "oseq/_oseq.pyx":418
  *                         self._root = x
  *                     if y is not z:
  *                         z.obj = y.obj             # <<<<<<<<<<<<<<
@@ -4893,7 +5045,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             __pyx_v_z->obj = __pyx_t_4;
             __pyx_t_4 = 0;
 
-            /* "oseq/_oseq.pyx":417
+            /* "oseq/_oseq.pyx":419
  *                     if y is not z:
  *                         z.obj = y.obj
  *                         z.next = y.next             # <<<<<<<<<<<<<<
@@ -4911,7 +5063,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           __pyx_L27:;
 
-          /* "oseq/_oseq.pyx":418
+          /* "oseq/_oseq.pyx":420
  *                         z.obj = y.obj
  *                         z.next = y.next
  *                     if y.color is BLACK:             # <<<<<<<<<<<<<<
@@ -4921,7 +5073,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_t_5 = ((__pyx_v_y->color == __pyx_e_4oseq_5_oseq_BLACK) != 0);
           if (__pyx_t_5) {
 
-            /* "oseq/_oseq.pyx":419
+            /* "oseq/_oseq.pyx":421
  *                         z.next = y.next
  *                     if y.color is BLACK:
  *                         self._delete_fixup(x)             # <<<<<<<<<<<<<<
@@ -4933,28 +5085,28 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           __pyx_L28:;
 
-          /* "oseq/_oseq.pyx":421
+          /* "oseq/_oseq.pyx":423
  *                         self._delete_fixup(x)
  *                     #
  *                     self._ct -= 1             # <<<<<<<<<<<<<<
  *                     return True
- * 
+ *                 # elif z.next is not None and z.obj == obj:
  */
           __pyx_v_self->_ct = (__pyx_v_self->_ct - 1);
 
-          /* "oseq/_oseq.pyx":422
+          /* "oseq/_oseq.pyx":424
  *                     #
  *                     self._ct -= 1
  *                     return True             # <<<<<<<<<<<<<<
- * 
  *                 # elif z.next is not None and z.obj == obj:
+ *                 elif z.next is not None and self._cmp(obj, z.obj) == EQ:
  */
           __pyx_r = 1;
           goto __pyx_L7_try_return;
         }
 
-        /* "oseq/_oseq.pyx":425
- * 
+        /* "oseq/_oseq.pyx":426
+ *                     return True
  *                 # elif z.next is not None and z.obj == obj:
  *                 elif z.next is not None and self._cmp(obj, z.obj) == EQ:             # <<<<<<<<<<<<<<
  *                     y = z.next
@@ -4980,7 +5132,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             __pyx_t_9 = 1;
           }
         }
-        __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 425; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 426; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_10);
         if (__pyx_t_8) {
           PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __Pyx_GIVEREF(__pyx_t_8); __pyx_t_8 = NULL;
@@ -4991,22 +5143,22 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
         __Pyx_INCREF(__pyx_v_z->obj);
         PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_v_z->obj);
         __Pyx_GIVEREF(__pyx_v_z->obj);
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 425; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 426; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 425; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 426; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_10 = PyObject_RichCompare(__pyx_t_4, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 425; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_10 = PyObject_RichCompare(__pyx_t_4, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 426; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 425; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 426; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __pyx_t_5 = __pyx_t_6;
         __pyx_L29_bool_binop_done:;
         if (__pyx_t_5) {
 
-          /* "oseq/_oseq.pyx":426
+          /* "oseq/_oseq.pyx":427
  *                 # elif z.next is not None and z.obj == obj:
  *                 elif z.next is not None and self._cmp(obj, z.obj) == EQ:
  *                     y = z.next             # <<<<<<<<<<<<<<
@@ -5018,7 +5170,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_v_y = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_10);
           __pyx_t_10 = 0;
 
-          /* "oseq/_oseq.pyx":427
+          /* "oseq/_oseq.pyx":428
  *                 elif z.next is not None and self._cmp(obj, z.obj) == EQ:
  *                     y = z.next
  *                     y.next = z.next.next             # <<<<<<<<<<<<<<
@@ -5033,17 +5185,17 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_v_y->next = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_10);
           __pyx_t_10 = 0;
 
-          /* "oseq/_oseq.pyx":429
+          /* "oseq/_oseq.pyx":430
  *                     y.next = z.next.next
  *                     # update tree upwards
  *                     if z.parent:             # <<<<<<<<<<<<<<
  *                         if z is z.parent.left:
  *                             z.parent.left = y
  */
-          __pyx_t_5 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_z->parent)); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 429; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __pyx_t_5 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_z->parent)); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 430; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
           if (__pyx_t_5) {
 
-            /* "oseq/_oseq.pyx":430
+            /* "oseq/_oseq.pyx":431
  *                     # update tree upwards
  *                     if z.parent:
  *                         if z is z.parent.left:             # <<<<<<<<<<<<<<
@@ -5054,7 +5206,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             __pyx_t_6 = (__pyx_t_5 != 0);
             if (__pyx_t_6) {
 
-              /* "oseq/_oseq.pyx":431
+              /* "oseq/_oseq.pyx":432
  *                     if z.parent:
  *                         if z is z.parent.left:
  *                             z.parent.left = y             # <<<<<<<<<<<<<<
@@ -5070,7 +5222,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             }
             /*else*/ {
 
-              /* "oseq/_oseq.pyx":433
+              /* "oseq/_oseq.pyx":434
  *                             z.parent.left = y
  *                         else:
  *                             z.parent.right = y             # <<<<<<<<<<<<<<
@@ -5088,7 +5240,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           /*else*/ {
 
-            /* "oseq/_oseq.pyx":435
+            /* "oseq/_oseq.pyx":436
  *                             z.parent.right = y
  *                     else:
  *                         self._root = y             # <<<<<<<<<<<<<<
@@ -5103,7 +5255,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           __pyx_L31:;
 
-          /* "oseq/_oseq.pyx":437
+          /* "oseq/_oseq.pyx":438
  *                         self._root = y
  *                     # update tree downwards
  *                     if z.left is not self._nil:             # <<<<<<<<<<<<<<
@@ -5114,7 +5266,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_t_5 = (__pyx_t_6 != 0);
           if (__pyx_t_5) {
 
-            /* "oseq/_oseq.pyx":438
+            /* "oseq/_oseq.pyx":439
  *                     # update tree downwards
  *                     if z.left is not self._nil:
  *                         z.left.parent = y             # <<<<<<<<<<<<<<
@@ -5130,7 +5282,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           __pyx_L33:;
 
-          /* "oseq/_oseq.pyx":439
+          /* "oseq/_oseq.pyx":440
  *                     if z.left is not self._nil:
  *                         z.left.parent = y
  *                     if z.right is not self._nil:             # <<<<<<<<<<<<<<
@@ -5141,7 +5293,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_t_6 = (__pyx_t_5 != 0);
           if (__pyx_t_6) {
 
-            /* "oseq/_oseq.pyx":440
+            /* "oseq/_oseq.pyx":441
  *                         z.left.parent = y
  *                     if z.right is not self._nil:
  *                         z.right.parent = y             # <<<<<<<<<<<<<<
@@ -5157,7 +5309,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           }
           __pyx_L34:;
 
-          /* "oseq/_oseq.pyx":442
+          /* "oseq/_oseq.pyx":443
  *                         z.right.parent = y
  * 
  *                     y.parent = z.parent             # <<<<<<<<<<<<<<
@@ -5172,7 +5324,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_v_y->parent = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_10);
           __pyx_t_10 = 0;
 
-          /* "oseq/_oseq.pyx":443
+          /* "oseq/_oseq.pyx":444
  * 
  *                     y.parent = z.parent
  *                     y.color = z.color             # <<<<<<<<<<<<<<
@@ -5182,7 +5334,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_t_12 = __pyx_v_z->color;
           __pyx_v_y->color = __pyx_t_12;
 
-          /* "oseq/_oseq.pyx":444
+          /* "oseq/_oseq.pyx":445
  *                     y.parent = z.parent
  *                     y.color = z.color
  *                     y.left = z.left             # <<<<<<<<<<<<<<
@@ -5197,7 +5349,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_v_y->left = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_10);
           __pyx_t_10 = 0;
 
-          /* "oseq/_oseq.pyx":445
+          /* "oseq/_oseq.pyx":446
  *                     y.color = z.color
  *                     y.left = z.left
  *                     y.right = z.right             # <<<<<<<<<<<<<<
@@ -5212,7 +5364,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
           __pyx_v_y->right = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_10);
           __pyx_t_10 = 0;
 
-          /* "oseq/_oseq.pyx":446
+          /* "oseq/_oseq.pyx":447
  *                     y.left = z.left
  *                     y.right = z.right
  *                     self._ct -= 1             # <<<<<<<<<<<<<<
@@ -5221,7 +5373,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
  */
           __pyx_v_self->_ct = (__pyx_v_self->_ct - 1);
 
-          /* "oseq/_oseq.pyx":448
+          /* "oseq/_oseq.pyx":449
  *                     self._ct -= 1
  *                     #
  *                     return True             # <<<<<<<<<<<<<<
@@ -5233,7 +5385,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
         }
         /*else*/ {
 
-          /* "oseq/_oseq.pyx":450
+          /* "oseq/_oseq.pyx":451
  *                     return True
  *                 else:
  *                     while z.next is not None:             # <<<<<<<<<<<<<<
@@ -5245,7 +5397,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             __pyx_t_5 = (__pyx_t_6 != 0);
             if (!__pyx_t_5) break;
 
-            /* "oseq/_oseq.pyx":451
+            /* "oseq/_oseq.pyx":452
  *                 else:
  *                     while z.next is not None:
  *                         if self._cmp(z.next.obj, obj) == EQ:             # <<<<<<<<<<<<<<
@@ -5265,7 +5417,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
                 __pyx_t_9 = 1;
               }
             }
-            __pyx_t_8 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 451; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+            __pyx_t_8 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 452; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
             __Pyx_GOTREF(__pyx_t_8);
             if (__pyx_t_4) {
               PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
@@ -5276,20 +5428,20 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
             __Pyx_INCREF(__pyx_v_obj);
             PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_9, __pyx_v_obj);
             __Pyx_GIVEREF(__pyx_v_obj);
-            __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 451; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+            __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_8, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 452; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
             __Pyx_GOTREF(__pyx_t_10);
             __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 451; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+            __pyx_t_7 = PyInt_FromLong(__pyx_e_4oseq_5_oseq_EQ); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 452; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
             __Pyx_GOTREF(__pyx_t_7);
-            __pyx_t_8 = PyObject_RichCompare(__pyx_t_10, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 451; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+            __pyx_t_8 = PyObject_RichCompare(__pyx_t_10, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 452; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
             __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 451; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+            __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 452; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
             __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
             if (__pyx_t_5) {
 
-              /* "oseq/_oseq.pyx":455
+              /* "oseq/_oseq.pyx":456
  *                             # _RedBlackNode is duplicate in list (body)
  *                             # Just delete from list by correcting next pointers
  *                             y = z.next             # <<<<<<<<<<<<<<
@@ -5301,7 +5453,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
               __pyx_v_y = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_8);
               __pyx_t_8 = 0;
 
-              /* "oseq/_oseq.pyx":456
+              /* "oseq/_oseq.pyx":457
  *                             # Just delete from list by correcting next pointers
  *                             y = z.next
  *                             z.next = y.next             # <<<<<<<<<<<<<<
@@ -5316,7 +5468,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
               __pyx_v_z->next = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_8);
               __pyx_t_8 = 0;
 
-              /* "oseq/_oseq.pyx":457
+              /* "oseq/_oseq.pyx":458
  *                             y = z.next
  *                             z.next = y.next
  *                             self._ct -= 1             # <<<<<<<<<<<<<<
@@ -5325,7 +5477,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
  */
               __pyx_v_self->_ct = (__pyx_v_self->_ct - 1);
 
-              /* "oseq/_oseq.pyx":459
+              /* "oseq/_oseq.pyx":460
  *                             self._ct -= 1
  *                             #
  *                             return True             # <<<<<<<<<<<<<<
@@ -5336,7 +5488,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
               goto __pyx_L7_try_return;
             }
 
-            /* "oseq/_oseq.pyx":460
+            /* "oseq/_oseq.pyx":461
  *                             #
  *                             return True
  *                         z = z.next             # <<<<<<<<<<<<<<
@@ -5363,7 +5515,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "oseq/_oseq.pyx":461
+    /* "oseq/_oseq.pyx":462
  *                             return True
  *                         z = z.next
  *         except AttributeError:             # <<<<<<<<<<<<<<
@@ -5373,12 +5525,12 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
     __pyx_t_13 = PyErr_ExceptionMatches(__pyx_builtin_AttributeError);
     if (__pyx_t_13) {
       __Pyx_AddTraceback("oseq._oseq.OrderedSequence._remove", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_7, &__pyx_t_10) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 461; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_7, &__pyx_t_10) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 462; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GOTREF(__pyx_t_10);
 
-      /* "oseq/_oseq.pyx":462
+      /* "oseq/_oseq.pyx":463
  *                         z = z.next
  *         except AttributeError:
  *             return False             # <<<<<<<<<<<<<<
@@ -5413,7 +5565,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
     __pyx_L10_try_end:;
   }
 
-  /* "oseq/_oseq.pyx":464
+  /* "oseq/_oseq.pyx":465
  *             return False
  *         # if we arrive here, there is no such node in the tree
  *         return False             # <<<<<<<<<<<<<<
@@ -5423,7 +5575,7 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "oseq/_oseq.pyx":369
+  /* "oseq/_oseq.pyx":371
  *         return x
  * 
  *     cdef bint _remove(self, obj):             # <<<<<<<<<<<<<<
@@ -5443,11 +5595,12 @@ static int __pyx_f_4oseq_5_oseq_15OrderedSequence__remove(struct __pyx_obj_4oseq
   __Pyx_XDECREF((PyObject *)__pyx_v_x);
   __Pyx_XDECREF((PyObject *)__pyx_v_y);
   __Pyx_XDECREF((PyObject *)__pyx_v_z);
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":466
+/* "oseq/_oseq.pyx":467
  *         return False
  * 
  *     cdef void _insert_fixup(self, _RedBlackNode x):             # <<<<<<<<<<<<<<
@@ -5462,10 +5615,12 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
   int __pyx_t_2;
   int __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_insert_fixup", 0);
+  __Pyx_TraceCall("_insert_fixup", __pyx_f[0], 467);
   __Pyx_INCREF((PyObject *)__pyx_v_x);
 
-  /* "oseq/_oseq.pyx":471
+  /* "oseq/_oseq.pyx":472
  *         cdef _RedBlackNode y
  *         # check Red-Black properties
  *         while x is not self._root and x.parent.color is RED:             # <<<<<<<<<<<<<<
@@ -5485,7 +5640,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
     __pyx_L5_bool_binop_done:;
     if (!__pyx_t_1) break;
 
-    /* "oseq/_oseq.pyx":473
+    /* "oseq/_oseq.pyx":474
  *         while x is not self._root and x.parent.color is RED:
  *             # we have a violation
  *             if x.parent is x.parent.parent.left:             # <<<<<<<<<<<<<<
@@ -5496,7 +5651,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
     __pyx_t_3 = (__pyx_t_1 != 0);
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":474
+      /* "oseq/_oseq.pyx":475
  *             # we have a violation
  *             if x.parent is x.parent.parent.left:
  *                 y = x.parent.parent.right             # <<<<<<<<<<<<<<
@@ -5508,7 +5663,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
       __Pyx_XDECREF_SET(__pyx_v_y, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
       __pyx_t_4 = 0;
 
-      /* "oseq/_oseq.pyx":475
+      /* "oseq/_oseq.pyx":476
  *             if x.parent is x.parent.parent.left:
  *                 y = x.parent.parent.right
  *                 if y.color is RED:             # <<<<<<<<<<<<<<
@@ -5518,7 +5673,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
       __pyx_t_3 = ((__pyx_v_y->color == __pyx_e_4oseq_5_oseq_RED) != 0);
       if (__pyx_t_3) {
 
-        /* "oseq/_oseq.pyx":477
+        /* "oseq/_oseq.pyx":478
  *                 if y.color is RED:
  *                     # uncle is RED
  *                     x.parent.color = BLACK             # <<<<<<<<<<<<<<
@@ -5527,7 +5682,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":478
+        /* "oseq/_oseq.pyx":479
  *                     # uncle is RED
  *                     x.parent.color = BLACK
  *                     y.color = BLACK             # <<<<<<<<<<<<<<
@@ -5536,7 +5691,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_y->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":479
+        /* "oseq/_oseq.pyx":480
  *                     x.parent.color = BLACK
  *                     y.color = BLACK
  *                     x.parent.parent.color = RED             # <<<<<<<<<<<<<<
@@ -5545,7 +5700,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->parent->color = __pyx_e_4oseq_5_oseq_RED;
 
-        /* "oseq/_oseq.pyx":480
+        /* "oseq/_oseq.pyx":481
  *                     y.color = BLACK
  *                     x.parent.parent.color = RED
  *                     x = x.parent.parent             # <<<<<<<<<<<<<<
@@ -5560,7 +5715,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
       }
       /*else*/ {
 
-        /* "oseq/_oseq.pyx":483
+        /* "oseq/_oseq.pyx":484
  *                 else:
  *                     # uncle is BLACK
  *                     if x is x.parent.right:             # <<<<<<<<<<<<<<
@@ -5571,7 +5726,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
         __pyx_t_1 = (__pyx_t_3 != 0);
         if (__pyx_t_1) {
 
-          /* "oseq/_oseq.pyx":485
+          /* "oseq/_oseq.pyx":486
  *                     if x is x.parent.right:
  *                         # make x a left child
  *                         x = x.parent             # <<<<<<<<<<<<<<
@@ -5583,7 +5738,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
           __Pyx_DECREF_SET(__pyx_v_x, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
           __pyx_t_4 = 0;
 
-          /* "oseq/_oseq.pyx":486
+          /* "oseq/_oseq.pyx":487
  *                         # make x a left child
  *                         x = x.parent
  *                         self._rotate_left(x)             # <<<<<<<<<<<<<<
@@ -5595,7 +5750,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
         }
         __pyx_L9:;
 
-        /* "oseq/_oseq.pyx":488
+        /* "oseq/_oseq.pyx":489
  *                         self._rotate_left(x)
  *                     # recolor and rotate
  *                     x.parent.color = BLACK             # <<<<<<<<<<<<<<
@@ -5604,7 +5759,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":489
+        /* "oseq/_oseq.pyx":490
  *                     # recolor and rotate
  *                     x.parent.color = BLACK
  *                     x.parent.parent.color = RED             # <<<<<<<<<<<<<<
@@ -5613,7 +5768,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->parent->color = __pyx_e_4oseq_5_oseq_RED;
 
-        /* "oseq/_oseq.pyx":490
+        /* "oseq/_oseq.pyx":491
  *                     x.parent.color = BLACK
  *                     x.parent.parent.color = RED
  *                     self._rotate_right(x.parent.parent)             # <<<<<<<<<<<<<<
@@ -5630,7 +5785,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
     }
     /*else*/ {
 
-      /* "oseq/_oseq.pyx":493
+      /* "oseq/_oseq.pyx":494
  *             else:
  *                 # mirror image of above code
  *                 y = x.parent.parent.left             # <<<<<<<<<<<<<<
@@ -5642,7 +5797,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
       __Pyx_XDECREF_SET(__pyx_v_y, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
       __pyx_t_4 = 0;
 
-      /* "oseq/_oseq.pyx":494
+      /* "oseq/_oseq.pyx":495
  *                 # mirror image of above code
  *                 y = x.parent.parent.left
  *                 if y.color is RED:             # <<<<<<<<<<<<<<
@@ -5652,7 +5807,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
       __pyx_t_1 = ((__pyx_v_y->color == __pyx_e_4oseq_5_oseq_RED) != 0);
       if (__pyx_t_1) {
 
-        /* "oseq/_oseq.pyx":496
+        /* "oseq/_oseq.pyx":497
  *                 if y.color is RED:
  *                     # uncle is RED
  *                     x.parent.color = BLACK             # <<<<<<<<<<<<<<
@@ -5661,7 +5816,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":497
+        /* "oseq/_oseq.pyx":498
  *                     # uncle is RED
  *                     x.parent.color = BLACK
  *                     y.color = BLACK             # <<<<<<<<<<<<<<
@@ -5670,7 +5825,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_y->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":498
+        /* "oseq/_oseq.pyx":499
  *                     x.parent.color = BLACK
  *                     y.color = BLACK
  *                     x.parent.parent.color = RED             # <<<<<<<<<<<<<<
@@ -5679,7 +5834,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->parent->color = __pyx_e_4oseq_5_oseq_RED;
 
-        /* "oseq/_oseq.pyx":499
+        /* "oseq/_oseq.pyx":500
  *                     y.color = BLACK
  *                     x.parent.parent.color = RED
  *                     x = x.parent.parent             # <<<<<<<<<<<<<<
@@ -5694,7 +5849,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
       }
       /*else*/ {
 
-        /* "oseq/_oseq.pyx":502
+        /* "oseq/_oseq.pyx":503
  *                 else:
  *                     # uncle is BLACK
  *                     if x is x.parent.left:             # <<<<<<<<<<<<<<
@@ -5705,7 +5860,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
         __pyx_t_3 = (__pyx_t_1 != 0);
         if (__pyx_t_3) {
 
-          /* "oseq/_oseq.pyx":503
+          /* "oseq/_oseq.pyx":504
  *                     # uncle is BLACK
  *                     if x is x.parent.left:
  *                         x = x.parent             # <<<<<<<<<<<<<<
@@ -5717,7 +5872,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
           __Pyx_DECREF_SET(__pyx_v_x, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
           __pyx_t_4 = 0;
 
-          /* "oseq/_oseq.pyx":504
+          /* "oseq/_oseq.pyx":505
  *                     if x is x.parent.left:
  *                         x = x.parent
  *                         self._rotate_right(x)             # <<<<<<<<<<<<<<
@@ -5729,7 +5884,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
         }
         __pyx_L11:;
 
-        /* "oseq/_oseq.pyx":505
+        /* "oseq/_oseq.pyx":506
  *                         x = x.parent
  *                         self._rotate_right(x)
  *                     x.parent.color = BLACK             # <<<<<<<<<<<<<<
@@ -5738,7 +5893,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":506
+        /* "oseq/_oseq.pyx":507
  *                         self._rotate_right(x)
  *                     x.parent.color = BLACK
  *                     x.parent.parent.color = RED             # <<<<<<<<<<<<<<
@@ -5747,7 +5902,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->parent->color = __pyx_e_4oseq_5_oseq_RED;
 
-        /* "oseq/_oseq.pyx":507
+        /* "oseq/_oseq.pyx":508
  *                     x.parent.color = BLACK
  *                     x.parent.parent.color = RED
  *                     self._rotate_left(x.parent.parent)             # <<<<<<<<<<<<<<
@@ -5764,7 +5919,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
     __pyx_L7:;
   }
 
-  /* "oseq/_oseq.pyx":508
+  /* "oseq/_oseq.pyx":509
  *                     x.parent.parent.color = RED
  *                     self._rotate_left(x.parent.parent)
  *         self._root.color = BLACK             # <<<<<<<<<<<<<<
@@ -5773,7 +5928,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
  */
   __pyx_v_self->_root->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-  /* "oseq/_oseq.pyx":466
+  /* "oseq/_oseq.pyx":467
  *         return False
  * 
  *     cdef void _insert_fixup(self, _RedBlackNode x):             # <<<<<<<<<<<<<<
@@ -5784,10 +5939,11 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__insert_fixup(struct __pyx_ob
   /* function exit code */
   __Pyx_XDECREF((PyObject *)__pyx_v_y);
   __Pyx_XDECREF((PyObject *)__pyx_v_x);
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
 }
 
-/* "oseq/_oseq.pyx":510
+/* "oseq/_oseq.pyx":511
  *         self._root.color = BLACK
  * 
  *     cdef void _delete_fixup(self, _RedBlackNode x):             # <<<<<<<<<<<<<<
@@ -5803,10 +5959,12 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
   int __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
   enum __pyx_t_4oseq_5_oseq_Color __pyx_t_5;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_delete_fixup", 0);
+  __Pyx_TraceCall("_delete_fixup", __pyx_f[0], 511);
   __Pyx_INCREF((PyObject *)__pyx_v_x);
 
-  /* "oseq/_oseq.pyx":514
+  /* "oseq/_oseq.pyx":515
  *         """
  *         cdef _RedBlackNode w
  *         while x is not self._root and x.color is BLACK:             # <<<<<<<<<<<<<<
@@ -5826,7 +5984,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
     __pyx_L5_bool_binop_done:;
     if (!__pyx_t_1) break;
 
-    /* "oseq/_oseq.pyx":515
+    /* "oseq/_oseq.pyx":516
  *         cdef _RedBlackNode w
  *         while x is not self._root and x.color is BLACK:
  *             if x is x.parent.left:             # <<<<<<<<<<<<<<
@@ -5837,7 +5995,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
     __pyx_t_3 = (__pyx_t_1 != 0);
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":516
+      /* "oseq/_oseq.pyx":517
  *         while x is not self._root and x.color is BLACK:
  *             if x is x.parent.left:
  *                 w = x.parent.right             # <<<<<<<<<<<<<<
@@ -5849,7 +6007,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       __Pyx_XDECREF_SET(__pyx_v_w, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
       __pyx_t_4 = 0;
 
-      /* "oseq/_oseq.pyx":517
+      /* "oseq/_oseq.pyx":518
  *             if x is x.parent.left:
  *                 w = x.parent.right
  *                 if w.color is RED:             # <<<<<<<<<<<<<<
@@ -5859,7 +6017,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       __pyx_t_3 = ((__pyx_v_w->color == __pyx_e_4oseq_5_oseq_RED) != 0);
       if (__pyx_t_3) {
 
-        /* "oseq/_oseq.pyx":518
+        /* "oseq/_oseq.pyx":519
  *                 w = x.parent.right
  *                 if w.color is RED:
  *                     w.color = BLACK             # <<<<<<<<<<<<<<
@@ -5868,7 +6026,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_w->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":519
+        /* "oseq/_oseq.pyx":520
  *                 if w.color is RED:
  *                     w.color = BLACK
  *                     x.parent.color = RED             # <<<<<<<<<<<<<<
@@ -5877,7 +6035,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->color = __pyx_e_4oseq_5_oseq_RED;
 
-        /* "oseq/_oseq.pyx":520
+        /* "oseq/_oseq.pyx":521
  *                     w.color = BLACK
  *                     x.parent.color = RED
  *                     self._rotate_left(x.parent)             # <<<<<<<<<<<<<<
@@ -5889,7 +6047,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_rotate_left(__pyx_v_self, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "oseq/_oseq.pyx":521
+        /* "oseq/_oseq.pyx":522
  *                     x.parent.color = RED
  *                     self._rotate_left(x.parent)
  *                     w = x.parent.right             # <<<<<<<<<<<<<<
@@ -5904,7 +6062,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       }
       __pyx_L8:;
 
-      /* "oseq/_oseq.pyx":522
+      /* "oseq/_oseq.pyx":523
  *                     self._rotate_left(x.parent)
  *                     w = x.parent.right
  *                 if w.left.color is BLACK and w.right.color is BLACK:             # <<<<<<<<<<<<<<
@@ -5922,7 +6080,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       __pyx_L10_bool_binop_done:;
       if (__pyx_t_3) {
 
-        /* "oseq/_oseq.pyx":523
+        /* "oseq/_oseq.pyx":524
  *                     w = x.parent.right
  *                 if w.left.color is BLACK and w.right.color is BLACK:
  *                     w.color = RED             # <<<<<<<<<<<<<<
@@ -5931,7 +6089,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_w->color = __pyx_e_4oseq_5_oseq_RED;
 
-        /* "oseq/_oseq.pyx":524
+        /* "oseq/_oseq.pyx":525
  *                 if w.left.color is BLACK and w.right.color is BLACK:
  *                     w.color = RED
  *                     x = x.parent             # <<<<<<<<<<<<<<
@@ -5946,7 +6104,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       }
       /*else*/ {
 
-        /* "oseq/_oseq.pyx":526
+        /* "oseq/_oseq.pyx":527
  *                     x = x.parent
  *                 else:
  *                     if w.right.color is BLACK:             # <<<<<<<<<<<<<<
@@ -5956,7 +6114,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         __pyx_t_3 = ((__pyx_v_w->right->color == __pyx_e_4oseq_5_oseq_BLACK) != 0);
         if (__pyx_t_3) {
 
-          /* "oseq/_oseq.pyx":527
+          /* "oseq/_oseq.pyx":528
  *                 else:
  *                     if w.right.color is BLACK:
  *                         w.left.color = BLACK             # <<<<<<<<<<<<<<
@@ -5965,7 +6123,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
           __pyx_v_w->left->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-          /* "oseq/_oseq.pyx":528
+          /* "oseq/_oseq.pyx":529
  *                     if w.right.color is BLACK:
  *                         w.left.color = BLACK
  *                         w.color = RED             # <<<<<<<<<<<<<<
@@ -5974,7 +6132,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
           __pyx_v_w->color = __pyx_e_4oseq_5_oseq_RED;
 
-          /* "oseq/_oseq.pyx":529
+          /* "oseq/_oseq.pyx":530
  *                         w.left.color = BLACK
  *                         w.color = RED
  *                         self._rotate_right(w)             # <<<<<<<<<<<<<<
@@ -5983,7 +6141,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
           ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_rotate_right(__pyx_v_self, __pyx_v_w);
 
-          /* "oseq/_oseq.pyx":530
+          /* "oseq/_oseq.pyx":531
  *                         w.color = RED
  *                         self._rotate_right(w)
  *                         w = x.parent.right             # <<<<<<<<<<<<<<
@@ -5998,7 +6156,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         }
         __pyx_L12:;
 
-        /* "oseq/_oseq.pyx":531
+        /* "oseq/_oseq.pyx":532
  *                         self._rotate_right(w)
  *                         w = x.parent.right
  *                     w.color = x.parent.color             # <<<<<<<<<<<<<<
@@ -6008,7 +6166,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         __pyx_t_5 = __pyx_v_x->parent->color;
         __pyx_v_w->color = __pyx_t_5;
 
-        /* "oseq/_oseq.pyx":532
+        /* "oseq/_oseq.pyx":533
  *                         w = x.parent.right
  *                     w.color = x.parent.color
  *                     x.parent.color = BLACK             # <<<<<<<<<<<<<<
@@ -6017,7 +6175,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":533
+        /* "oseq/_oseq.pyx":534
  *                     w.color = x.parent.color
  *                     x.parent.color = BLACK
  *                     w.right.color = BLACK             # <<<<<<<<<<<<<<
@@ -6026,7 +6184,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_w->right->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":534
+        /* "oseq/_oseq.pyx":535
  *                     x.parent.color = BLACK
  *                     w.right.color = BLACK
  *                     self._rotate_left(x.parent)             # <<<<<<<<<<<<<<
@@ -6038,7 +6196,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_rotate_left(__pyx_v_self, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "oseq/_oseq.pyx":535
+        /* "oseq/_oseq.pyx":536
  *                     w.right.color = BLACK
  *                     self._rotate_left(x.parent)
  *                     x = self._root             # <<<<<<<<<<<<<<
@@ -6055,7 +6213,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
     }
     /*else*/ {
 
-      /* "oseq/_oseq.pyx":537
+      /* "oseq/_oseq.pyx":538
  *                     x = self._root
  *             else:
  *                 w = x.parent.left             # <<<<<<<<<<<<<<
@@ -6067,7 +6225,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       __Pyx_XDECREF_SET(__pyx_v_w, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
       __pyx_t_4 = 0;
 
-      /* "oseq/_oseq.pyx":538
+      /* "oseq/_oseq.pyx":539
  *             else:
  *                 w = x.parent.left
  *                 if w.color == RED:             # <<<<<<<<<<<<<<
@@ -6077,7 +6235,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       __pyx_t_3 = ((__pyx_v_w->color == __pyx_e_4oseq_5_oseq_RED) != 0);
       if (__pyx_t_3) {
 
-        /* "oseq/_oseq.pyx":539
+        /* "oseq/_oseq.pyx":540
  *                 w = x.parent.left
  *                 if w.color == RED:
  *                     w.color = BLACK             # <<<<<<<<<<<<<<
@@ -6086,7 +6244,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_w->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":540
+        /* "oseq/_oseq.pyx":541
  *                 if w.color == RED:
  *                     w.color = BLACK
  *                     x.parent.color = RED             # <<<<<<<<<<<<<<
@@ -6095,7 +6253,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->color = __pyx_e_4oseq_5_oseq_RED;
 
-        /* "oseq/_oseq.pyx":541
+        /* "oseq/_oseq.pyx":542
  *                     w.color = BLACK
  *                     x.parent.color = RED
  *                     self._rotate_right(x.parent)             # <<<<<<<<<<<<<<
@@ -6107,7 +6265,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_rotate_right(__pyx_v_self, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "oseq/_oseq.pyx":542
+        /* "oseq/_oseq.pyx":543
  *                     x.parent.color = RED
  *                     self._rotate_right(x.parent)
  *                     w = x.parent.left             # <<<<<<<<<<<<<<
@@ -6122,7 +6280,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       }
       __pyx_L13:;
 
-      /* "oseq/_oseq.pyx":543
+      /* "oseq/_oseq.pyx":544
  *                     self._rotate_right(x.parent)
  *                     w = x.parent.left
  *                 if w.right.color == BLACK and w.left.color == BLACK:             # <<<<<<<<<<<<<<
@@ -6140,7 +6298,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       __pyx_L15_bool_binop_done:;
       if (__pyx_t_3) {
 
-        /* "oseq/_oseq.pyx":544
+        /* "oseq/_oseq.pyx":545
  *                     w = x.parent.left
  *                 if w.right.color == BLACK and w.left.color == BLACK:
  *                     w.color = RED             # <<<<<<<<<<<<<<
@@ -6149,7 +6307,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_w->color = __pyx_e_4oseq_5_oseq_RED;
 
-        /* "oseq/_oseq.pyx":545
+        /* "oseq/_oseq.pyx":546
  *                 if w.right.color == BLACK and w.left.color == BLACK:
  *                     w.color = RED
  *                     x = x.parent             # <<<<<<<<<<<<<<
@@ -6164,7 +6322,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
       }
       /*else*/ {
 
-        /* "oseq/_oseq.pyx":547
+        /* "oseq/_oseq.pyx":548
  *                     x = x.parent
  *                 else:
  *                     if w.left.color == BLACK:             # <<<<<<<<<<<<<<
@@ -6174,7 +6332,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         __pyx_t_3 = ((__pyx_v_w->left->color == __pyx_e_4oseq_5_oseq_BLACK) != 0);
         if (__pyx_t_3) {
 
-          /* "oseq/_oseq.pyx":548
+          /* "oseq/_oseq.pyx":549
  *                 else:
  *                     if w.left.color == BLACK:
  *                         w.right.color = BLACK             # <<<<<<<<<<<<<<
@@ -6183,7 +6341,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
           __pyx_v_w->right->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-          /* "oseq/_oseq.pyx":549
+          /* "oseq/_oseq.pyx":550
  *                     if w.left.color == BLACK:
  *                         w.right.color = BLACK
  *                         w.color = RED             # <<<<<<<<<<<<<<
@@ -6192,7 +6350,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
           __pyx_v_w->color = __pyx_e_4oseq_5_oseq_RED;
 
-          /* "oseq/_oseq.pyx":550
+          /* "oseq/_oseq.pyx":551
  *                         w.right.color = BLACK
  *                         w.color = RED
  *                         self._rotate_left(w)             # <<<<<<<<<<<<<<
@@ -6201,7 +6359,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
           ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_rotate_left(__pyx_v_self, __pyx_v_w);
 
-          /* "oseq/_oseq.pyx":551
+          /* "oseq/_oseq.pyx":552
  *                         w.color = RED
  *                         self._rotate_left(w)
  *                         w = x.parent.left             # <<<<<<<<<<<<<<
@@ -6216,7 +6374,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         }
         __pyx_L17:;
 
-        /* "oseq/_oseq.pyx":552
+        /* "oseq/_oseq.pyx":553
  *                         self._rotate_left(w)
  *                         w = x.parent.left
  *                     w.color = x.parent.color             # <<<<<<<<<<<<<<
@@ -6226,7 +6384,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         __pyx_t_5 = __pyx_v_x->parent->color;
         __pyx_v_w->color = __pyx_t_5;
 
-        /* "oseq/_oseq.pyx":553
+        /* "oseq/_oseq.pyx":554
  *                         w = x.parent.left
  *                     w.color = x.parent.color
  *                     x.parent.color = BLACK             # <<<<<<<<<<<<<<
@@ -6235,7 +6393,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_x->parent->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":554
+        /* "oseq/_oseq.pyx":555
  *                     w.color = x.parent.color
  *                     x.parent.color = BLACK
  *                     w.left.color = BLACK             # <<<<<<<<<<<<<<
@@ -6244,7 +6402,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
         __pyx_v_w->left->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-        /* "oseq/_oseq.pyx":555
+        /* "oseq/_oseq.pyx":556
  *                     x.parent.color = BLACK
  *                     w.left.color = BLACK
  *                     self._rotate_right(x.parent)             # <<<<<<<<<<<<<<
@@ -6256,7 +6414,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
         ((struct __pyx_vtabstruct_4oseq_5_oseq_OrderedSequence *)__pyx_v_self->__pyx_vtab)->_rotate_right(__pyx_v_self, ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_4));
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "oseq/_oseq.pyx":556
+        /* "oseq/_oseq.pyx":557
  *                     w.left.color = BLACK
  *                     self._rotate_right(x.parent)
  *                     x = self._root             # <<<<<<<<<<<<<<
@@ -6273,7 +6431,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
     __pyx_L7:;
   }
 
-  /* "oseq/_oseq.pyx":557
+  /* "oseq/_oseq.pyx":558
  *                     self._rotate_right(x.parent)
  *                     x = self._root
  *         x.color = BLACK             # <<<<<<<<<<<<<<
@@ -6282,7 +6440,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
  */
   __pyx_v_x->color = __pyx_e_4oseq_5_oseq_BLACK;
 
-  /* "oseq/_oseq.pyx":510
+  /* "oseq/_oseq.pyx":511
  *         self._root.color = BLACK
  * 
  *     cdef void _delete_fixup(self, _RedBlackNode x):             # <<<<<<<<<<<<<<
@@ -6293,10 +6451,11 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup(struct __pyx_ob
   /* function exit code */
   __Pyx_XDECREF((PyObject *)__pyx_v_w);
   __Pyx_XDECREF((PyObject *)__pyx_v_x);
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
 }
 
-/* "oseq/_oseq.pyx":559
+/* "oseq/_oseq.pyx":560
  *         x.color = BLACK
  * 
  *     cdef void _rotate_left(self, _RedBlackNode x):             # <<<<<<<<<<<<<<
@@ -6313,9 +6472,11 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_rotate_left", 0);
+  __Pyx_TraceCall("_rotate_left", __pyx_f[0], 560);
 
-  /* "oseq/_oseq.pyx":563
+  /* "oseq/_oseq.pyx":564
  *         """
  *         cdef _RedBlackNode y
  *         y = x.right             # <<<<<<<<<<<<<<
@@ -6327,7 +6488,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   __pyx_v_y = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":565
+  /* "oseq/_oseq.pyx":566
  *         y = x.right
  *         # establish x.right link
  *         x.right = y.left             # <<<<<<<<<<<<<<
@@ -6342,7 +6503,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   __pyx_v_x->right = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":566
+  /* "oseq/_oseq.pyx":567
  *         # establish x.right link
  *         x.right = y.left
  *         if y.left is not self._nil:             # <<<<<<<<<<<<<<
@@ -6353,7 +6514,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "oseq/_oseq.pyx":567
+    /* "oseq/_oseq.pyx":568
  *         x.right = y.left
  *         if y.left is not self._nil:
  *             y.left.parent = x             # <<<<<<<<<<<<<<
@@ -6369,7 +6530,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   }
   __pyx_L3:;
 
-  /* "oseq/_oseq.pyx":569
+  /* "oseq/_oseq.pyx":570
  *             y.left.parent = x
  *         # establish y.parent link
  *         if y is not self._nil:             # <<<<<<<<<<<<<<
@@ -6380,7 +6541,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":570
+    /* "oseq/_oseq.pyx":571
  *         # establish y.parent link
  *         if y is not self._nil:
  *             y.parent = x.parent             # <<<<<<<<<<<<<<
@@ -6398,17 +6559,17 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   }
   __pyx_L4:;
 
-  /* "oseq/_oseq.pyx":571
+  /* "oseq/_oseq.pyx":572
  *         if y is not self._nil:
  *             y.parent = x.parent
  *         if x.parent:             # <<<<<<<<<<<<<<
  *             if x is x.parent.left:
  *                 x.parent.left = y
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_x->parent)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 571; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_x->parent)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 572; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":572
+    /* "oseq/_oseq.pyx":573
  *             y.parent = x.parent
  *         if x.parent:
  *             if x is x.parent.left:             # <<<<<<<<<<<<<<
@@ -6419,7 +6580,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":573
+      /* "oseq/_oseq.pyx":574
  *         if x.parent:
  *             if x is x.parent.left:
  *                 x.parent.left = y             # <<<<<<<<<<<<<<
@@ -6435,7 +6596,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
     }
     /*else*/ {
 
-      /* "oseq/_oseq.pyx":575
+      /* "oseq/_oseq.pyx":576
  *                 x.parent.left = y
  *             else:
  *                 x.parent.right = y             # <<<<<<<<<<<<<<
@@ -6453,7 +6614,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":577
+    /* "oseq/_oseq.pyx":578
  *                 x.parent.right = y
  *         else:
  *             self._root = y             # <<<<<<<<<<<<<<
@@ -6468,7 +6629,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   }
   __pyx_L5:;
 
-  /* "oseq/_oseq.pyx":579
+  /* "oseq/_oseq.pyx":580
  *             self._root = y
  *         # link x and y
  *         y.left = x             # <<<<<<<<<<<<<<
@@ -6481,7 +6642,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   __Pyx_DECREF(((PyObject *)__pyx_v_y->left));
   __pyx_v_y->left = __pyx_v_x;
 
-  /* "oseq/_oseq.pyx":580
+  /* "oseq/_oseq.pyx":581
  *         # link x and y
  *         y.left = x
  *         if x is not self._nil:             # <<<<<<<<<<<<<<
@@ -6492,7 +6653,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":581
+    /* "oseq/_oseq.pyx":582
  *         y.left = x
  *         if x is not self._nil:
  *             x.parent = y             # <<<<<<<<<<<<<<
@@ -6508,7 +6669,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   }
   __pyx_L7:;
 
-  /* "oseq/_oseq.pyx":559
+  /* "oseq/_oseq.pyx":560
  *         x.color = BLACK
  * 
  *     cdef void _rotate_left(self, _RedBlackNode x):             # <<<<<<<<<<<<<<
@@ -6523,10 +6684,11 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left(struct __pyx_obj
   __Pyx_WriteUnraisable("oseq._oseq.OrderedSequence._rotate_left", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_y);
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
 }
 
-/* "oseq/_oseq.pyx":583
+/* "oseq/_oseq.pyx":584
  *             x.parent = y
  * 
  *     cdef void _rotate_right(self, _RedBlackNode x):             # <<<<<<<<<<<<<<
@@ -6543,9 +6705,11 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_rotate_right", 0);
+  __Pyx_TraceCall("_rotate_right", __pyx_f[0], 584);
 
-  /* "oseq/_oseq.pyx":587
+  /* "oseq/_oseq.pyx":588
  *         """
  *         cdef _RedBlackNode y
  *         y = x.left             # <<<<<<<<<<<<<<
@@ -6557,7 +6721,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   __pyx_v_y = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":589
+  /* "oseq/_oseq.pyx":590
  *         y = x.left
  *         # establish x.left link
  *         x.left = y.right             # <<<<<<<<<<<<<<
@@ -6572,7 +6736,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   __pyx_v_x->left = ((struct __pyx_obj_4oseq_5_oseq__RedBlackNode *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":590
+  /* "oseq/_oseq.pyx":591
  *         # establish x.left link
  *         x.left = y.right
  *         if y.right is not self._nil:             # <<<<<<<<<<<<<<
@@ -6583,7 +6747,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "oseq/_oseq.pyx":591
+    /* "oseq/_oseq.pyx":592
  *         x.left = y.right
  *         if y.right is not self._nil:
  *             y.right.parent = x             # <<<<<<<<<<<<<<
@@ -6599,7 +6763,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   }
   __pyx_L3:;
 
-  /* "oseq/_oseq.pyx":593
+  /* "oseq/_oseq.pyx":594
  *             y.right.parent = x
  *         # establish y.parent link
  *         if y is not self._nil:             # <<<<<<<<<<<<<<
@@ -6610,7 +6774,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":594
+    /* "oseq/_oseq.pyx":595
  *         # establish y.parent link
  *         if y is not self._nil:
  *             y.parent = x.parent             # <<<<<<<<<<<<<<
@@ -6628,17 +6792,17 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   }
   __pyx_L4:;
 
-  /* "oseq/_oseq.pyx":595
+  /* "oseq/_oseq.pyx":596
  *         if y is not self._nil:
  *             y.parent = x.parent
  *         if x.parent:             # <<<<<<<<<<<<<<
  *             if x is x.parent.right:
  *                 x.parent.right = y
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_x->parent)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 595; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_x->parent)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 596; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":596
+    /* "oseq/_oseq.pyx":597
  *             y.parent = x.parent
  *         if x.parent:
  *             if x is x.parent.right:             # <<<<<<<<<<<<<<
@@ -6649,7 +6813,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
     __pyx_t_3 = (__pyx_t_2 != 0);
     if (__pyx_t_3) {
 
-      /* "oseq/_oseq.pyx":597
+      /* "oseq/_oseq.pyx":598
  *         if x.parent:
  *             if x is x.parent.right:
  *                 x.parent.right = y             # <<<<<<<<<<<<<<
@@ -6665,7 +6829,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
     }
     /*else*/ {
 
-      /* "oseq/_oseq.pyx":599
+      /* "oseq/_oseq.pyx":600
  *                 x.parent.right = y
  *             else:
  *                 x.parent.left = y             # <<<<<<<<<<<<<<
@@ -6683,7 +6847,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   }
   /*else*/ {
 
-    /* "oseq/_oseq.pyx":601
+    /* "oseq/_oseq.pyx":602
  *                 x.parent.left = y
  *         else:
  *             self._root = y             # <<<<<<<<<<<<<<
@@ -6698,7 +6862,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   }
   __pyx_L5:;
 
-  /* "oseq/_oseq.pyx":603
+  /* "oseq/_oseq.pyx":604
  *             self._root = y
  *         # link x and y
  *         y.right = x             # <<<<<<<<<<<<<<
@@ -6711,7 +6875,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   __Pyx_DECREF(((PyObject *)__pyx_v_y->right));
   __pyx_v_y->right = __pyx_v_x;
 
-  /* "oseq/_oseq.pyx":604
+  /* "oseq/_oseq.pyx":605
  *         # link x and y
  *         y.right = x
  *         if x is not self._nil:             # <<<<<<<<<<<<<<
@@ -6722,7 +6886,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "oseq/_oseq.pyx":605
+    /* "oseq/_oseq.pyx":606
  *         y.right = x
  *         if x is not self._nil:
  *             x.parent = y             # <<<<<<<<<<<<<<
@@ -6738,7 +6902,7 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   }
   __pyx_L7:;
 
-  /* "oseq/_oseq.pyx":583
+  /* "oseq/_oseq.pyx":584
  *             x.parent = y
  * 
  *     cdef void _rotate_right(self, _RedBlackNode x):             # <<<<<<<<<<<<<<
@@ -6753,10 +6917,11 @@ static void __pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right(struct __pyx_ob
   __Pyx_WriteUnraisable("oseq._oseq.OrderedSequence._rotate_right", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_y);
+  __Pyx_TraceReturn(Py_None);
   __Pyx_RefNannyFinishContext();
 }
 
-/* "oseq/_oseq.pyx":608
+/* "oseq/_oseq.pyx":609
  * 
  *     #-------------------------------------------------------------------#
  *     def dump_dot(self, to_file):             # <<<<<<<<<<<<<<
@@ -6791,23 +6956,25 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_24dump_dot(struct __pyx
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("dump_dot", 0);
+  __Pyx_TraceCall("dump_dot", __pyx_f[0], 609);
 
-  /* "oseq/_oseq.pyx":613
+  /* "oseq/_oseq.pyx":614
  *         .. _Graphviz: http://www.graphviz.org/
  *         """
  *         to_file.write("digraph G {")             # <<<<<<<<<<<<<<
  *         if self._root is not self._nil:
  *             self._dump(self._root, to_file)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_to_file, __pyx_n_s_write); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 613; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_to_file, __pyx_n_s_write); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 614; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 613; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 614; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "oseq/_oseq.pyx":614
+  /* "oseq/_oseq.pyx":615
  *         """
  *         to_file.write("digraph G {")
  *         if self._root is not self._nil:             # <<<<<<<<<<<<<<
@@ -6818,14 +6985,14 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_24dump_dot(struct __pyx
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
 
-    /* "oseq/_oseq.pyx":615
+    /* "oseq/_oseq.pyx":616
  *         to_file.write("digraph G {")
  *         if self._root is not self._nil:
  *             self._dump(self._root, to_file)             # <<<<<<<<<<<<<<
  *         to_file.write("}")
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 615; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 616; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_5 = NULL;
     __pyx_t_6 = 0;
@@ -6839,7 +7006,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_24dump_dot(struct __pyx
         __pyx_t_6 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 615; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 616; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
@@ -6850,7 +7017,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_24dump_dot(struct __pyx
     __Pyx_INCREF(__pyx_v_to_file);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_to_file);
     __Pyx_GIVEREF(__pyx_v_to_file);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 615; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 616; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6859,21 +7026,21 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_24dump_dot(struct __pyx
   }
   __pyx_L3:;
 
-  /* "oseq/_oseq.pyx":616
+  /* "oseq/_oseq.pyx":617
  *         if self._root is not self._nil:
  *             self._dump(self._root, to_file)
  *         to_file.write("}")             # <<<<<<<<<<<<<<
  * 
  *     def _dump(self, _RedBlackNode x, buf):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_to_file, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 616; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_to_file, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 617; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 616; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 617; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":608
+  /* "oseq/_oseq.pyx":609
  * 
  *     #-------------------------------------------------------------------#
  *     def dump_dot(self, to_file):             # <<<<<<<<<<<<<<
@@ -6893,11 +7060,12 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_24dump_dot(struct __pyx
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "oseq/_oseq.pyx":618
+/* "oseq/_oseq.pyx":619
  *         to_file.write("}")
  * 
  *     def _dump(self, _RedBlackNode x, buf):             # <<<<<<<<<<<<<<
@@ -6937,11 +7105,11 @@ static PyObject *__pyx_pw_4oseq_5_oseq_15OrderedSequence_27_dump(PyObject *__pyx
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_buf)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_dump", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 618; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("_dump", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 619; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_dump") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 618; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_dump") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 619; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6954,13 +7122,13 @@ static PyObject *__pyx_pw_4oseq_5_oseq_15OrderedSequence_27_dump(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_dump", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 618; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("_dump", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 619; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("oseq._oseq.OrderedSequence._dump", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 618; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_4oseq_5_oseq__RedBlackNode, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 619; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(((struct __pyx_obj_4oseq_5_oseq_OrderedSequence *)__pyx_v_self), __pyx_v_x, __pyx_v_buf);
 
   /* function exit code */
@@ -6991,9 +7159,11 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannySetupContext("_dump", 0);
+  __Pyx_TraceCall("_dump", __pyx_f[0], 619);
 
-  /* "oseq/_oseq.pyx":620
+  /* "oseq/_oseq.pyx":621
  *     def _dump(self, _RedBlackNode x, buf):
  *         """Dumps all nodes in the tree to a buffer like object"""
  *         color = "yellow"             # <<<<<<<<<<<<<<
@@ -7003,7 +7173,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   __Pyx_INCREF(__pyx_n_s_yellow);
   __pyx_v_color = __pyx_n_s_yellow;
 
-  /* "oseq/_oseq.pyx":621
+  /* "oseq/_oseq.pyx":622
  *         """Dumps all nodes in the tree to a buffer like object"""
  *         color = "yellow"
  *         fillcolor = "#fffacd"             # <<<<<<<<<<<<<<
@@ -7013,7 +7183,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   __Pyx_INCREF(__pyx_kp_s_fffacd);
   __pyx_v_fillcolor = __pyx_kp_s_fffacd;
 
-  /* "oseq/_oseq.pyx":625
+  /* "oseq/_oseq.pyx":626
  *             color = "red"
  *             fillcolor = "#ffcccc"
  *         elif x.color == BLACK:             # <<<<<<<<<<<<<<
@@ -7022,7 +7192,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
  */
   switch (__pyx_v_x->color) {
 
-    /* "oseq/_oseq.pyx":622
+    /* "oseq/_oseq.pyx":623
  *         color = "yellow"
  *         fillcolor = "#fffacd"
  *         if x.color == RED:             # <<<<<<<<<<<<<<
@@ -7031,7 +7201,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
  */
     case __pyx_e_4oseq_5_oseq_RED:
 
-    /* "oseq/_oseq.pyx":623
+    /* "oseq/_oseq.pyx":624
  *         fillcolor = "#fffacd"
  *         if x.color == RED:
  *             color = "red"             # <<<<<<<<<<<<<<
@@ -7041,7 +7211,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     __Pyx_INCREF(__pyx_n_s_red);
     __Pyx_DECREF_SET(__pyx_v_color, __pyx_n_s_red);
 
-    /* "oseq/_oseq.pyx":624
+    /* "oseq/_oseq.pyx":625
  *         if x.color == RED:
  *             color = "red"
  *             fillcolor = "#ffcccc"             # <<<<<<<<<<<<<<
@@ -7052,7 +7222,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     __Pyx_DECREF_SET(__pyx_v_fillcolor, __pyx_kp_s_ffcccc);
     break;
 
-    /* "oseq/_oseq.pyx":625
+    /* "oseq/_oseq.pyx":626
  *             color = "red"
  *             fillcolor = "#ffcccc"
  *         elif x.color == BLACK:             # <<<<<<<<<<<<<<
@@ -7061,7 +7231,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
  */
     case __pyx_e_4oseq_5_oseq_BLACK:
 
-    /* "oseq/_oseq.pyx":626
+    /* "oseq/_oseq.pyx":627
  *             fillcolor = "#ffcccc"
  *         elif x.color == BLACK:
  *             color = "black"             # <<<<<<<<<<<<<<
@@ -7071,7 +7241,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     __Pyx_INCREF(__pyx_n_s_black);
     __Pyx_DECREF_SET(__pyx_v_color, __pyx_n_s_black);
 
-    /* "oseq/_oseq.pyx":627
+    /* "oseq/_oseq.pyx":628
  *         elif x.color == BLACK:
  *             color = "black"
  *             fillcolor = "#ececec"             # <<<<<<<<<<<<<<
@@ -7084,35 +7254,35 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     default: break;
   }
 
-  /* "oseq/_oseq.pyx":628
+  /* "oseq/_oseq.pyx":629
  *             color = "black"
  *             fillcolor = "#ececec"
  *         buf.write('"{0}"[label = "{1}" '             # <<<<<<<<<<<<<<
  *                         'color = "{2}" fillcolor = "{3}"'
  *                         'style = "filled"];'.format(id(x),
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 628; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 629; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "oseq/_oseq.pyx":630
+  /* "oseq/_oseq.pyx":631
  *         buf.write('"{0}"[label = "{1}" '
  *                         'color = "{2}" fillcolor = "{3}"'
  *                         'style = "filled"];'.format(id(x),             # <<<<<<<<<<<<<<
  *                                                 x.obj, color, fillcolor))
  *         if x.left is not self._nil:
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_label_1_color_2_fillcolor_3_s, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 630; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_label_1_color_2_fillcolor_3_s, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 631; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 630; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 631; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(((PyObject *)__pyx_v_x));
   PyTuple_SET_ITEM(__pyx_t_5, 0, ((PyObject *)__pyx_v_x));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_x));
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 630; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 631; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "oseq/_oseq.pyx":631
+  /* "oseq/_oseq.pyx":632
  *                         'color = "{2}" fillcolor = "{3}"'
  *                         'style = "filled"];'.format(id(x),
  *                                                 x.obj, color, fillcolor))             # <<<<<<<<<<<<<<
@@ -7131,7 +7301,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_8 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 630; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 631; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   if (__pyx_t_5) {
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
@@ -7148,7 +7318,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   PyTuple_SET_ITEM(__pyx_t_8, 3+__pyx_t_7, __pyx_v_fillcolor);
   __Pyx_GIVEREF(__pyx_v_fillcolor);
   __pyx_t_6 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 630; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 631; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -7163,24 +7333,24 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 628; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 629; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 628; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 629; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_8);
     PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
     PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 628; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 629; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":632
+  /* "oseq/_oseq.pyx":633
  *                         'style = "filled"];'.format(id(x),
  *                                                 x.obj, color, fillcolor))
  *         if x.left is not self._nil:             # <<<<<<<<<<<<<<
@@ -7191,14 +7361,14 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   __pyx_t_10 = (__pyx_t_9 != 0);
   if (__pyx_t_10) {
 
-    /* "oseq/_oseq.pyx":633
+    /* "oseq/_oseq.pyx":634
  *                                                 x.obj, color, fillcolor))
  *         if x.left is not self._nil:
  *             self._dump(x.left, buf)             # <<<<<<<<<<<<<<
  *         if x.right is not self._nil:
  *             self._dump(x.right, buf)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 633; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 634; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_8 = NULL;
     __pyx_t_7 = 0;
@@ -7212,7 +7382,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
         __pyx_t_7 = 1;
       }
     }
-    __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 633; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 634; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     if (__pyx_t_8) {
       PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_8); __Pyx_GIVEREF(__pyx_t_8); __pyx_t_8 = NULL;
@@ -7223,7 +7393,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     __Pyx_INCREF(__pyx_v_buf);
     PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_7, __pyx_v_buf);
     __Pyx_GIVEREF(__pyx_v_buf);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 633; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 634; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7232,7 +7402,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   }
   __pyx_L3:;
 
-  /* "oseq/_oseq.pyx":634
+  /* "oseq/_oseq.pyx":635
  *         if x.left is not self._nil:
  *             self._dump(x.left, buf)
  *         if x.right is not self._nil:             # <<<<<<<<<<<<<<
@@ -7243,14 +7413,14 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   __pyx_t_9 = (__pyx_t_10 != 0);
   if (__pyx_t_9) {
 
-    /* "oseq/_oseq.pyx":635
+    /* "oseq/_oseq.pyx":636
  *             self._dump(x.left, buf)
  *         if x.right is not self._nil:
  *             self._dump(x.right, buf)             # <<<<<<<<<<<<<<
  *         if x.next is not None:
  *             buf.write('"{0}" -> "{1}" ;'.format(id(x), id(x.next)))
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 635; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 636; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = NULL;
     __pyx_t_7 = 0;
@@ -7264,7 +7434,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
         __pyx_t_7 = 1;
       }
     }
-    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 635; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 636; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_3) {
       PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
@@ -7275,7 +7445,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     __Pyx_INCREF(__pyx_v_buf);
     PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_v_buf);
     __Pyx_GIVEREF(__pyx_v_buf);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 635; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 636; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7284,7 +7454,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   }
   __pyx_L4:;
 
-  /* "oseq/_oseq.pyx":636
+  /* "oseq/_oseq.pyx":637
  *         if x.right is not self._nil:
  *             self._dump(x.right, buf)
  *         if x.next is not None:             # <<<<<<<<<<<<<<
@@ -7295,31 +7465,31 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   __pyx_t_10 = (__pyx_t_9 != 0);
   if (__pyx_t_10) {
 
-    /* "oseq/_oseq.pyx":637
+    /* "oseq/_oseq.pyx":638
  *             self._dump(x.right, buf)
  *         if x.next is not None:
  *             buf.write('"{0}" -> "{1}" ;'.format(id(x), id(x.next)))             # <<<<<<<<<<<<<<
  *             self._dump(x.next, buf)
  *         buf.write('"{0}" -> "{1}" [label="l"] ;'.format(id(x), id(x.left)))
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(((PyObject *)__pyx_v_x));
     PyTuple_SET_ITEM(__pyx_t_4, 0, ((PyObject *)__pyx_v_x));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_x));
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_4, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_4, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(((PyObject *)__pyx_v_x->next));
     PyTuple_SET_ITEM(__pyx_t_4, 0, ((PyObject *)__pyx_v_x->next));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_x->next));
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -7334,7 +7504,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
         __pyx_t_7 = 1;
       }
     }
-    __pyx_t_11 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_11 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_11);
     if (__pyx_t_4) {
       PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
@@ -7345,7 +7515,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     __Pyx_GIVEREF(__pyx_t_5);
     __pyx_t_6 = 0;
     __pyx_t_5 = 0;
-    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7360,31 +7530,31 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
       }
     }
     if (!__pyx_t_3) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else {
-      __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_11);
       PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
       PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_8);
       __pyx_t_8 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 637; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "oseq/_oseq.pyx":638
+    /* "oseq/_oseq.pyx":639
  *         if x.next is not None:
  *             buf.write('"{0}" -> "{1}" ;'.format(id(x), id(x.next)))
  *             self._dump(x.next, buf)             # <<<<<<<<<<<<<<
  *         buf.write('"{0}" -> "{1}" [label="l"] ;'.format(id(x), id(x.left)))
  *         buf.write('"{0}" -> "{1}" [label="r"] ;'.format(id(x), id(x.right)))
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dump); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_11 = NULL;
     __pyx_t_7 = 0;
@@ -7398,7 +7568,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
         __pyx_t_7 = 1;
       }
     }
-    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_11) {
       PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
@@ -7409,7 +7579,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     __Pyx_INCREF(__pyx_v_buf);
     PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_v_buf);
     __Pyx_GIVEREF(__pyx_v_buf);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7418,31 +7588,31 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   }
   __pyx_L5:;
 
-  /* "oseq/_oseq.pyx":639
+  /* "oseq/_oseq.pyx":640
  *             buf.write('"{0}" -> "{1}" ;'.format(id(x), id(x.next)))
  *             self._dump(x.next, buf)
  *         buf.write('"{0}" -> "{1}" [label="l"] ;'.format(id(x), id(x.left)))             # <<<<<<<<<<<<<<
  *         buf.write('"{0}" -> "{1}" [label="r"] ;'.format(id(x), id(x.right)))
  *         buf.write('"{0}" -> "{1}" [label="p"] ;'.format(id(x), id(x.parent)))
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1_label_l, __pyx_n_s_format); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1_label_l, __pyx_n_s_format); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)__pyx_v_x));
   PyTuple_SET_ITEM(__pyx_t_3, 0, ((PyObject *)__pyx_v_x));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_x));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)__pyx_v_x->left));
   PyTuple_SET_ITEM(__pyx_t_3, 0, ((PyObject *)__pyx_v_x->left));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_x->left));
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -7457,7 +7627,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (__pyx_t_3) {
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
@@ -7468,7 +7638,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   __Pyx_GIVEREF(__pyx_t_6);
   __pyx_t_5 = 0;
   __pyx_t_6 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_4, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_4, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -7483,47 +7653,47 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     }
   }
   if (!__pyx_t_11) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
     PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_8);
     __pyx_t_8 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 639; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":640
+  /* "oseq/_oseq.pyx":641
  *             self._dump(x.next, buf)
  *         buf.write('"{0}" -> "{1}" [label="l"] ;'.format(id(x), id(x.left)))
  *         buf.write('"{0}" -> "{1}" [label="r"] ;'.format(id(x), id(x.right)))             # <<<<<<<<<<<<<<
  *         buf.write('"{0}" -> "{1}" [label="p"] ;'.format(id(x), id(x.parent)))
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1_label_r, __pyx_n_s_format); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1_label_r, __pyx_n_s_format); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_11 = PyTuple_New(1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = PyTuple_New(1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_INCREF(((PyObject *)__pyx_v_x));
   PyTuple_SET_ITEM(__pyx_t_11, 0, ((PyObject *)__pyx_v_x));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_x));
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_11, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_11, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __pyx_t_11 = PyTuple_New(1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = PyTuple_New(1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_INCREF(((PyObject *)__pyx_v_x->right));
   PyTuple_SET_ITEM(__pyx_t_11, 0, ((PyObject *)__pyx_v_x->right));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_x->right));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __pyx_t_11 = NULL;
@@ -7538,7 +7708,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   if (__pyx_t_11) {
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
@@ -7549,7 +7719,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   __Pyx_GIVEREF(__pyx_t_5);
   __pyx_t_6 = 0;
   __pyx_t_5 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -7564,46 +7734,46 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     }
   }
   if (!__pyx_t_8) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_8); __Pyx_GIVEREF(__pyx_t_8); __pyx_t_8 = NULL;
     PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":641
+  /* "oseq/_oseq.pyx":642
  *         buf.write('"{0}" -> "{1}" [label="l"] ;'.format(id(x), id(x.left)))
  *         buf.write('"{0}" -> "{1}" [label="r"] ;'.format(id(x), id(x.right)))
  *         buf.write('"{0}" -> "{1}" [label="p"] ;'.format(id(x), id(x.parent)))             # <<<<<<<<<<<<<<
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_buf, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1_label_p, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1_label_p, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_INCREF(((PyObject *)__pyx_v_x));
   PyTuple_SET_ITEM(__pyx_t_8, 0, ((PyObject *)__pyx_v_x));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_x));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_INCREF(((PyObject *)__pyx_v_x->parent));
   PyTuple_SET_ITEM(__pyx_t_8, 0, ((PyObject *)__pyx_v_x->parent));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_x->parent));
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_8, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_id, __pyx_t_8, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_t_8 = NULL;
@@ -7618,7 +7788,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_11 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   if (__pyx_t_8) {
     PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_8); __Pyx_GIVEREF(__pyx_t_8); __pyx_t_8 = NULL;
@@ -7629,7 +7799,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   __Pyx_GIVEREF(__pyx_t_6);
   __pyx_t_5 = 0;
   __pyx_t_6 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_11, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_11, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -7644,24 +7814,24 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_11);
     PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
     PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 642; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":618
+  /* "oseq/_oseq.pyx":619
  *         to_file.write("}")
  * 
  *     def _dump(self, _RedBlackNode x, buf):             # <<<<<<<<<<<<<<
@@ -7687,6 +7857,7 @@ static PyObject *__pyx_pf_4oseq_5_oseq_15OrderedSequence_26_dump(struct __pyx_ob
   __Pyx_XDECREF(__pyx_v_color);
   __Pyx_XDECREF(__pyx_v_fillcolor);
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8177,11 +8348,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_cmp = __Pyx_GetBuiltinName(__pyx_n_s_cmp); if (!__pyx_builtin_cmp) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_AttributeError = __Pyx_GetBuiltinName(__pyx_n_s_AttributeError); if (!__pyx_builtin_AttributeError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 461; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_cmp = __Pyx_GetBuiltinName(__pyx_n_s_cmp); if (!__pyx_builtin_cmp) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_AttributeError = __Pyx_GetBuiltinName(__pyx_n_s_AttributeError); if (!__pyx_builtin_AttributeError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 462; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -8191,116 +8362,116 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "oseq/_oseq.pyx":208
+  /* "oseq/_oseq.pyx":210
  *         result = self._remove(obj)
  *         if not result:
  *             raise IndexError("""OrderedSequence.remove(x): \             # <<<<<<<<<<<<<<
  * x not in OrderedSequence""")
  * 
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_OrderedSequence_remove_x_x_not_i); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_OrderedSequence_remove_x_x_not_i); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "oseq/_oseq.pyx":232
+  /* "oseq/_oseq.pyx":234
  *             result = self._remove(current.obj)
  *             if not result:
  *                 raise IndexError("""OrderedSequence.pop(x): \             # <<<<<<<<<<<<<<
  * x not in OrderedSequence (is your sort stable?)""")
  *             return current.obj
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_OrderedSequence_pop_x_x_not_in_O); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_OrderedSequence_pop_x_x_not_in_O); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "oseq/_oseq.pyx":236
+  /* "oseq/_oseq.pyx":238
  *             return current.obj
  *         else:
  *             raise IndexError('pop from an empty OrderedSequence')             # <<<<<<<<<<<<<<
  * 
  *     def popleft(self):
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_pop_from_an_empty_OrderedSequenc); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_pop_from_an_empty_OrderedSequenc); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "oseq/_oseq.pyx":249
+  /* "oseq/_oseq.pyx":251
  *             result = self._remove(current.obj)
  *             if not result:
  *                 raise IndexError("""OrderedSequence.popleft(x): \             # <<<<<<<<<<<<<<
  * x not in OrderedSequence (is your sort stable?)""")
  *             return current.obj
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_OrderedSequence_popleft_x_x_not); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 249; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_OrderedSequence_popleft_x_x_not); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 251; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "oseq/_oseq.pyx":253
+  /* "oseq/_oseq.pyx":255
  *             return current.obj
  *         else:
  *             raise IndexError('pop from an empty OrderedSequence')             # <<<<<<<<<<<<<<
  * 
  *     def min(self):
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_pop_from_an_empty_OrderedSequenc); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 253; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_pop_from_an_empty_OrderedSequenc); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "oseq/_oseq.pyx":264
+  /* "oseq/_oseq.pyx":266
  *             return current.obj
  *         else:
  *             raise IndexError("Empty OrderedSequence has no min")             # <<<<<<<<<<<<<<
  * 
  *     def max(self):
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Empty_OrderedSequence_has_no_min); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Empty_OrderedSequence_has_no_min); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 266; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "oseq/_oseq.pyx":275
+  /* "oseq/_oseq.pyx":277
  *             return current.obj
  *         else:
  *             raise IndexError("Empty OrderedSequence has no max")             # <<<<<<<<<<<<<<
  * 
  *     # Private methods / Cython implementation
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Empty_OrderedSequence_has_no_max); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Empty_OrderedSequence_has_no_max); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "oseq/_oseq.pyx":613
+  /* "oseq/_oseq.pyx":614
  *         .. _Graphviz: http://www.graphviz.org/
  *         """
  *         to_file.write("digraph G {")             # <<<<<<<<<<<<<<
  *         if self._root is not self._nil:
  *             self._dump(self._root, to_file)
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_digraph_G); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 613; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_digraph_G); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 614; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "oseq/_oseq.pyx":616
+  /* "oseq/_oseq.pyx":617
  *         if self._root is not self._nil:
  *             self._dump(self._root, to_file)
  *         to_file.write("}")             # <<<<<<<<<<<<<<
  * 
  *     def _dump(self, _RedBlackNode x, buf):
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s__11); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 616; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s__11); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 617; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
-  /* "oseq/_oseq.pyx":8
+  /* "oseq/_oseq.pyx":10
  * #
  * 
  * def compare(x, y):             # <<<<<<<<<<<<<<
  *     """
  *     Return negative if x<y, zero if x==y, positive if x>y.
  */
-  __pyx_tuple__13 = PyTuple_Pack(2, __pyx_n_s_x, __pyx_n_s_y); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__13 = PyTuple_Pack(2, __pyx_n_s_x, __pyx_n_s_y); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_martijn_workspace_oseq_src, __pyx_n_s_compare, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_martijn_workspace_oseq_src, __pyx_n_s_compare, 10, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -8398,15 +8569,15 @@ PyMODINIT_FUNC PyInit__oseq(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_4oseq_5_oseq__RedBlackNode) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_4oseq_5_oseq__RedBlackNode) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_4oseq_5_oseq__RedBlackNode.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "_RedBlackNode", (PyObject *)&__pyx_type_4oseq_5_oseq__RedBlackNode) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "_RedBlackNode", (PyObject *)&__pyx_type_4oseq_5_oseq__RedBlackNode) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_4oseq_5_oseq__RedBlackNode = &__pyx_type_4oseq_5_oseq__RedBlackNode;
-  if (PyType_Ready(&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_4oseq_5_oseq__DirectedInOrderIterator.tp_print = 0;
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_4oseq_5_oseq_24_DirectedInOrderIterator___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_4oseq_5_oseq_24_DirectedInOrderIterator___init__.doc = __pyx_doc_4oseq_5_oseq_24_DirectedInOrderIterator___init__;
@@ -8416,7 +8587,7 @@ PyMODINIT_FUNC PyInit__oseq(void)
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator, "__iter__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator, "__iter__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_4oseq_5_oseq_24_DirectedInOrderIterator_2__iter__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_4oseq_5_oseq_24_DirectedInOrderIterator_2__iter__.doc = __pyx_doc_4oseq_5_oseq_24_DirectedInOrderIterator_2__iter__;
@@ -8426,7 +8597,7 @@ PyMODINIT_FUNC PyInit__oseq(void)
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator, "__next__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator, "__next__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__.doc = __pyx_doc_4oseq_5_oseq_24_DirectedInOrderIterator_4__next__;
@@ -8434,7 +8605,7 @@ PyMODINIT_FUNC PyInit__oseq(void)
     }
   }
   #endif
-  if (PyObject_SetAttrString(__pyx_m, "_DirectedInOrderIterator", (PyObject *)&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "_DirectedInOrderIterator", (PyObject *)&__pyx_type_4oseq_5_oseq__DirectedInOrderIterator) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_4oseq_5_oseq__DirectedInOrderIterator = &__pyx_type_4oseq_5_oseq__DirectedInOrderIterator;
   __pyx_vtabptr_4oseq_5_oseq_OrderedSequence = &__pyx_vtable_4oseq_5_oseq_OrderedSequence;
   __pyx_vtable_4oseq_5_oseq_OrderedSequence._find = (struct __pyx_obj_4oseq_5_oseq__RedBlackNode *(*)(struct __pyx_obj_4oseq_5_oseq_OrderedSequence *, PyObject *))__pyx_f_4oseq_5_oseq_15OrderedSequence__find;
@@ -8446,11 +8617,11 @@ PyMODINIT_FUNC PyInit__oseq(void)
   __pyx_vtable_4oseq_5_oseq_OrderedSequence._delete_fixup = (void (*)(struct __pyx_obj_4oseq_5_oseq_OrderedSequence *, struct __pyx_obj_4oseq_5_oseq__RedBlackNode *))__pyx_f_4oseq_5_oseq_15OrderedSequence__delete_fixup;
   __pyx_vtable_4oseq_5_oseq_OrderedSequence._rotate_left = (void (*)(struct __pyx_obj_4oseq_5_oseq_OrderedSequence *, struct __pyx_obj_4oseq_5_oseq__RedBlackNode *))__pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_left;
   __pyx_vtable_4oseq_5_oseq_OrderedSequence._rotate_right = (void (*)(struct __pyx_obj_4oseq_5_oseq_OrderedSequence *, struct __pyx_obj_4oseq_5_oseq__RedBlackNode *))__pyx_f_4oseq_5_oseq_15OrderedSequence__rotate_right;
-  if (PyType_Ready(&__pyx_type_4oseq_5_oseq_OrderedSequence) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_4oseq_5_oseq_OrderedSequence) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_4oseq_5_oseq_OrderedSequence.tp_print = 0;
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_4oseq_5_oseq_15OrderedSequence___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_4oseq_5_oseq_15OrderedSequence___init__.doc = __pyx_doc_4oseq_5_oseq_15OrderedSequence___init__;
@@ -8460,7 +8631,7 @@ PyMODINIT_FUNC PyInit__oseq(void)
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence, "__iter__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence, "__iter__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_4oseq_5_oseq_15OrderedSequence_2__iter__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_4oseq_5_oseq_15OrderedSequence_2__iter__.doc = __pyx_doc_4oseq_5_oseq_15OrderedSequence_2__iter__;
@@ -8470,7 +8641,7 @@ PyMODINIT_FUNC PyInit__oseq(void)
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence, "__len__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence, "__len__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_4oseq_5_oseq_15OrderedSequence_6__len__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_4oseq_5_oseq_15OrderedSequence_6__len__.doc = __pyx_doc_4oseq_5_oseq_15OrderedSequence_6__len__;
@@ -8480,7 +8651,7 @@ PyMODINIT_FUNC PyInit__oseq(void)
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence, "__contains__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence, "__contains__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_4oseq_5_oseq_15OrderedSequence_8__contains__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_4oseq_5_oseq_15OrderedSequence_8__contains__.doc = __pyx_doc_4oseq_5_oseq_15OrderedSequence_8__contains__;
@@ -8488,42 +8659,42 @@ PyMODINIT_FUNC PyInit__oseq(void)
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_4oseq_5_oseq_OrderedSequence.tp_dict, __pyx_vtabptr_4oseq_5_oseq_OrderedSequence) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyObject_SetAttrString(__pyx_m, "OrderedSequence", (PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_SetVtable(__pyx_type_4oseq_5_oseq_OrderedSequence.tp_dict, __pyx_vtabptr_4oseq_5_oseq_OrderedSequence) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "OrderedSequence", (PyObject *)&__pyx_type_4oseq_5_oseq_OrderedSequence) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_4oseq_5_oseq_OrderedSequence = &__pyx_type_4oseq_5_oseq_OrderedSequence;
   /*--- Type import code ---*/
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   /*--- Execution code ---*/
 
-  /* "oseq/_oseq.pyx":8
+  /* "oseq/_oseq.pyx":10
  * #
  * 
  * def compare(x, y):             # <<<<<<<<<<<<<<
  *     """
  *     Return negative if x<y, zero if x==y, positive if x>y.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4oseq_5_oseq_1compare, NULL, __pyx_n_s_oseq__oseq); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4oseq_5_oseq_1compare, NULL, __pyx_n_s_oseq__oseq); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_compare, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_compare, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":22
+  /* "oseq/_oseq.pyx":24
  *         return 1
  * 
  * __all__ = ['OrderedSequence']             # <<<<<<<<<<<<<<
  * 
  * # cdef enum Color:
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_OrderedSequence);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_OrderedSequence);
   __Pyx_GIVEREF(__pyx_n_s_OrderedSequence);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_all, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "oseq/_oseq.pyx":43
+  /* "oseq/_oseq.pyx":45
  * 
  *     def __init__(self, object val,
  *                        Color color = BLACK,             # <<<<<<<<<<<<<<
@@ -8532,7 +8703,7 @@ PyMODINIT_FUNC PyInit__oseq(void)
  */
   __pyx_k_ = __pyx_e_4oseq_5_oseq_BLACK;
 
-  /* "oseq/_oseq.pyx":155
+  /* "oseq/_oseq.pyx":157
  * #     cdef unsigned int _ct
  * 
  *     def __init__(self, cmp = cmp):             # <<<<<<<<<<<<<<
@@ -8544,8 +8715,8 @@ PyMODINIT_FUNC PyInit__oseq(void)
   __Pyx_GIVEREF(__pyx_builtin_cmp);
 
   /* "oseq/_oseq.pyx":1
- * #             # <<<<<<<<<<<<<<
- * # TODO:
+ * # cython: profile=True             # <<<<<<<<<<<<<<
+ * 
  * #
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -8743,6 +8914,87 @@ invalid_keyword:
 bad:
     return -1;
 }
+
+#if CYTHON_PROFILE
+static int __Pyx_TraceSetupAndCall(PyCodeObject** code,
+                                   PyFrameObject** frame,
+                                   const char *funcname,
+                                   const char *srcfile,
+                                   int firstlineno) {
+    int retval;
+    PyThreadState* tstate = PyThreadState_GET();
+    if (*frame == NULL || !CYTHON_PROFILE_REUSE_FRAME) {
+        if (*code == NULL) {
+            *code = __Pyx_createFrameCodeObject(funcname, srcfile, firstlineno);
+            if (*code == NULL) return 0;
+        }
+        *frame = PyFrame_New(
+            tstate,                          /*PyThreadState *tstate*/
+            *code,                           /*PyCodeObject *code*/
+            __pyx_d,                  /*PyObject *globals*/
+            0                                /*PyObject *locals*/
+        );
+        if (*frame == NULL) return 0;
+        if (CYTHON_TRACE && (*frame)->f_trace == NULL) {
+            Py_INCREF(Py_None);
+            (*frame)->f_trace = Py_None;
+        }
+#if PY_VERSION_HEX < 0x030400B1
+    } else {
+        (*frame)->f_tstate = tstate;
+#endif
+    }
+    (*frame)->f_lineno = firstlineno;
+    tstate->use_tracing = 0;
+    #if CYTHON_TRACE
+    if (tstate->c_tracefunc)
+        tstate->c_tracefunc(tstate->c_traceobj, *frame, PyTrace_CALL, NULL);
+    if (!tstate->c_profilefunc)
+        retval = 1;
+    else
+    #endif
+        retval = tstate->c_profilefunc(tstate->c_profileobj, *frame, PyTrace_CALL, NULL) == 0;
+    tstate->use_tracing = (tstate->c_profilefunc ||
+                           (CYTHON_TRACE && tstate->c_tracefunc));
+    return tstate->use_tracing && retval;
+}
+static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno) {
+    PyObject *py_srcfile = 0;
+    PyObject *py_funcname = 0;
+    PyCodeObject *py_code = 0;
+    #if PY_MAJOR_VERSION < 3
+    py_funcname = PyString_FromString(funcname);
+    py_srcfile = PyString_FromString(srcfile);
+    #else
+    py_funcname = PyUnicode_FromString(funcname);
+    py_srcfile = PyUnicode_FromString(srcfile);
+    #endif
+    if (!py_funcname | !py_srcfile) goto bad;
+    py_code = PyCode_New(
+        0,
+        #if PY_MAJOR_VERSION >= 3
+        0,
+        #endif
+        0,
+        0,
+        0,
+        __pyx_empty_bytes,     /*PyObject *code,*/
+        __pyx_empty_tuple,     /*PyObject *consts,*/
+        __pyx_empty_tuple,     /*PyObject *names,*/
+        __pyx_empty_tuple,     /*PyObject *varnames,*/
+        __pyx_empty_tuple,     /*PyObject *freevars,*/
+        __pyx_empty_tuple,     /*PyObject *cellvars,*/
+        py_srcfile,       /*PyObject *filename,*/
+        py_funcname,      /*PyObject *name,*/
+        firstlineno,
+        __pyx_empty_bytes      /*PyObject *lnotab*/
+    );
+bad:
+    Py_XDECREF(py_srcfile);
+    Py_XDECREF(py_funcname);
+    return py_code;
+}
+#endif
 
 static void __Pyx_RaiseArgumentTypeInvalid(const char* name, PyObject *obj, PyTypeObject *type) {
     PyErr_Format(PyExc_TypeError,
