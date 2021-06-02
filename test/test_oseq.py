@@ -18,25 +18,25 @@ class testOrderedSequence(unittest.TestCase):
         self.assertRaises(IndexError, self.seq.max)
 
     def test_empty_tree_is_zero_len(self):
-        self.assertEquals( len(self.seq), 0)
+        self.assertEqual( len(self.seq), 0)
 
     def test_insert_4_means_len_4(self):
-        for i in xrange(0, 4):
+        for i in range(0, 4):
             self.seq.add((i, 1))
-        self.assertEquals( len(self.seq), 4)
+        self.assertEqual( len(self.seq), 4)
 
     def test_min(self):
-        for i in xrange(0, 4):
+        for i in range(0, 4):
             self.seq.add((i, 1))
-        self.assertEquals( self.seq.min(), (0, 1.0))
+        self.assertEqual( self.seq.min(), (0, 1.0))
 
     def test_max(self):
-        for i in xrange(0, 4):
+        for i in range(0, 4):
             self.seq.add((i, 1))
-        self.assertEquals( self.seq.max(), (3, 1.0))
+        self.assertEqual( self.seq.max(), (3, 1.0))
 
     def test_empty_seq(self):
-        self.assertEquals( len(self.seq), 0)
+        self.assertEqual( len(self.seq), 0)
         self.assertRaises(IndexError, self.seq.min)
         self.assertRaises(IndexError, self.seq.max)
     
@@ -44,24 +44,24 @@ class testOrderedSequence(unittest.TestCase):
         L = []
         jmax = 0
         nr = 1000
-        for i in xrange(nr):
+        for i in range(nr):
             j = randint(0, 10)
             L.append((j, j)) 
             if j > jmax:
                 jmax = j
         for itm in L:
             self.seq.add(itm)
-        self.assertEquals( len(self.seq), nr)
-        self.assertEquals( self.seq.max(), (jmax, jmax))
+        self.assertEqual( len(self.seq), nr)
+        self.assertEqual( self.seq.max(), (jmax, jmax))
         for itm in L:
             self.seq.remove(itm)
-        self.assertEquals( len(self.seq), 0)
+        self.assertEqual( len(self.seq), 0)
         self.assertRaises(IndexError, self.seq.min)
         self.assertRaises(IndexError, self.seq.max)
             
     def test_in_tree(self):
         L = []
-        for i in xrange(0, 4):
+        for i in range(0, 4):
             L.append((i, 1))
             self.seq.add(L[i])
         for j, i in enumerate(self.seq):
@@ -71,45 +71,45 @@ class testOrderedSequence(unittest.TestCase):
         assert (4, 1) not in self.seq
 
     def test_contains(self):
-        for i in xrange(0, 4):
+        for i in range(0, 4):
             a = (i, 1)
             self.seq.add(a)
         assert a in self.seq
 
     def test_in_tree_pop(self):
         L = []
-        for i in xrange(0, 4):
+        for i in range(0, 4):
             L.append((i, 1))
             self.seq.add(L[i])
         for j, i in enumerate(self.seq):
             assert i in self.seq
             assert L[j] in self.seq
-        for i in xrange(0, 4):
+        for i in range(0, 4):
             self.seq.pop()
         assert len(self.seq) == 0
     
         
 #    def test_lot_values(self):
-#        for i in xrange(0, 10000):
+#        for i in range(0, 10000):
 #            self.seq.add((i, i*2))
-#        self.assertEquals( self.seq.min(), (0, 0.0))
-#        self.assertEquals( self.seq.max(), (9999, 9999*2.0))
-#        self.assertEquals( len(self.seq), 10000)
+#        self.assertEqual( self.seq.min(), (0, 0.0))
+#        self.assertEqual( self.seq.max(), (9999, 9999*2.0))
+#        self.assertEqual( len(self.seq), 10000)
 #        
     def test_one_add(self):
         a = (573376.21, 156)
         self.seq.add(a)
-        self.assertEquals( len(self.seq), 1)
+        self.assertEqual( len(self.seq), 1)
         assert self.seq.pop() == a
-        self.assertEquals( len(self.seq), 0)
+        self.assertEqual( len(self.seq), 0)
 
     def test_two_add(self):
         a = (660981.5, 5967)
         self.seq.add(a)
         self.seq.add((573376.21, 156))
-        self.assertEquals( len(self.seq), 2)
+        self.assertEqual( len(self.seq), 2)
         self.seq.remove(a)
-        self.assertEquals( len(self.seq), 1)
+        self.assertEqual( len(self.seq), 1)
 
     def test_remove_not_there(self):        
         self.seq.add((5253.99, 2637))
@@ -128,7 +128,7 @@ class testOrderedSequence(unittest.TestCase):
         self.assertRaises(IndexError, self.seq.remove, (1, 2))
 
     def test_duplicate_1c(self):
-        for i in xrange(0, 100):
+        for i in range(0, 100):
             self.seq.add((1, 1))
         self.assertRaises(IndexError, self.seq.remove, (1000000, 1))        
 
@@ -152,7 +152,7 @@ class testOrderedSequence(unittest.TestCase):
         a = (1, 1)
         self.seq.add((1, 1))
         self.seq.add(a)
-        for i in xrange(25):
+        for i in range(25):
             self.seq.add((1, 2))
         self.seq.add((1, 1))
         self.seq.add((1, 3))
@@ -171,12 +171,12 @@ class testOrderedSequence(unittest.TestCase):
         self.seq.add((5253.99, 2633))
         self.seq.add((5253.99, 2638))
         self.seq.add(a)
-        self.assertEquals( len(self.seq), 10)
+        self.assertEqual( len(self.seq), 10)
         self.seq.remove(a)
-        self.assertEquals( len(self.seq), 9)
+        self.assertEqual( len(self.seq), 9)
         self.seq.remove(b)
         assert b not in self.seq
-        self.assertEquals( len(self.seq), 8)
+        self.assertEqual( len(self.seq), 8)
 
     def test_duplicate_6(self):
         
@@ -210,36 +210,36 @@ class testOrderedSequence(unittest.TestCase):
              (10, 10), (2, 2), (1, 1), (6, 6), (5, 5), (5, 5), (10, 10)]
         for itm in L:
             self.seq.add(itm)
-        self.assertEquals( len(self.seq), len(L))
+        self.assertEqual( len(self.seq), len(L))
         for itm in L:
             self.seq.remove(itm)
-        self.assertEquals( len(self.seq), 0)
+        self.assertEqual( len(self.seq), 0)
 
     def test_duplicate_8(self):
         # Failing test case
         L = [(8, 8), (6, 6), (9, 9), (10, 10), (9, 9)]
         for itm in L:
             self.seq.add(itm)
-        self.assertEquals( len(self.seq), len(L))
+        self.assertEqual( len(self.seq), len(L))
         for itm in L:
             self.seq.remove(itm)
-        self.assertEquals( len(self.seq), 0)
+        self.assertEqual( len(self.seq), 0)
         
     def test_duplicate_9(self):
         # Failing test case
         L = [(1,1), (1,2), (1,3)]
         for itm in L:
             self.seq.add(itm)
-        self.assertEquals(len(self.seq), len(L))
-        self.assertEquals(self.seq.max(), (1,3) )
+        self.assertEqual(len(self.seq), len(L))
+        self.assertEqual(self.seq.max(), (1,3) )
 
     def test_duplicate_10(self):
         # Failing test case
         L = [(1,1), (1,2), (1,3)]
         for itm in L:
             self.seq.add(itm)
-        self.assertEquals(len(self.seq), len(L))
-        self.assertEquals(self.seq.min(), (1, 1) )
+        self.assertEqual(len(self.seq), len(L))
+        self.assertEqual(self.seq.min(), (1, 1) )
 
 #class testOrderedSequenceOrdering(unittest.TestCase):
 #    def setUp(self):
@@ -250,7 +250,7 @@ class testOrderedSequence(unittest.TestCase):
         
     def test_ordering_max_min(self):
         num = 10000
-        L = range(num)
+        L = list(range(num))
         shuffle(L)
         L.extend(L)
         for i in L:
@@ -267,7 +267,7 @@ class testOrderedSequence(unittest.TestCase):
 
     def test_ordering_min_max(self):
         num = 10000
-        L = range(num)
+        L = list(range(num))
         shuffle(L)
         L.extend(L)
         for i in L:

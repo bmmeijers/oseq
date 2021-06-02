@@ -1,4 +1,4 @@
-# cython: profile=True
+# cython: profile=True, language_level=2
 
 cdef enum Color:
     BLACK

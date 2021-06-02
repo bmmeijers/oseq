@@ -7,19 +7,31 @@
 #   (i.e. change happens outside of OrderedSequence -> will it ruin stuff?)
 #
 
+#def compare(x, y):
+#    """
+#    Return negative if x<y, zero if x==y, positive if x>y.
+#    
+#    This comparison function is an example, the default one that is used
+#    is ``cmp``.
+#    """
+#    if x < y:
+#        return -1
+#    elif x == y:
+#        return 0
+#    else:
+#        return 1
+
 def compare(x, y):
     """
-    Return negative if x<y, zero if x==y, positive if x>y.
-    
-    This comparison function is an example, the default one that is used
-    is ``cmp``.
+    Replacement for built-in function cmp that was removed in Python 3
+
+    Compare the two objects x and y and return an integer according to
+    the outcome. The return value is negative if x < y, zero if x == y
+    and strictly positive if x > y.
     """
-    if x < y:
-        return -1
-    elif x == y:
-        return 0
-    else:
-        return 1
+
+    return (x > y) - (x < y)
+
 
 __all__ = ['OrderedSequence']
 
@@ -154,7 +166,7 @@ cdef class OrderedSequence:
 #     cdef _RedBlackNode _nil, _root
 #     cdef unsigned int _ct
 
-    def __init__(self, cmp = cmp):
+    def __init__(self, object cmp = compare):
         """Initializes the OrderedSequence
         
         :param cmp: compare function (defaults to ``cmp``)

@@ -6,6 +6,6 @@ __license__ = 'MIT License'
 __author__ = 'Martijn Meijers'
 __creation_date__ = '2009-03-26'
 
-from _oseq import OrderedSequence
+from ._oseq import OrderedSequence
 
 __all__ = ["OrderedSequence"]
